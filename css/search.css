@@ -10,7 +10,7 @@ ul,li{
     list-style: none;
 }
 .container{
-    width: 1200px;
+    width: 1100px;
     margin: 0 auto;
     font-size: 1.2rem;
 }
@@ -82,8 +82,9 @@ ul,li{
     border-left: 2px solid rgba(0,0,0,0.1);
 }
 .item-name{
-    font-size: 1.1rem; 
+    font-size: 1.2rem; 
     margin-left: 10px; 
+    font-weight: 300;
 }
 .btn-primary{
     margin-top: 30px;
@@ -104,4 +105,28 @@ ul,li{
 .filter-item{
     border: 1px solid rgba(0,0,0,0.25);
     padding: 20px;
+}
+.title-sreach{
+    font-size: 1.4rem;
+    margin-top: 30px;
+}
+.group-filter{
+    margin-top: 20px;
+}
+.filter-item{
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 20px ;
+    width: 250px;
+}
+.group-filter--search{
+    justify-content: space-between;
+}
+.icon-search--filter{
+    background-color: #006CE4;
+    padding: 5px 7px;
+    border-radius: 50%;
+    color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    cursor: pointer;
 }
