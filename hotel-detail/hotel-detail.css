@@ -1,0 +1,309 @@
+a {
+  color: rgb(0, 108, 228);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.mt-4 {
+  margin-top: 4px;
+}
+
+.mt-8 {
+  margin-top: 8px;
+}
+
+.df {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.row {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotel_name {
+  margin-bottom: 8px;
+  line-height: 32px;
+}
+
+.hotel_address {
+  align-items: center;
+}
+
+.hotel_address > i {
+  color: #0077cc;
+  margin-right: 4px;
+}
+
+.hotel_address > a {
+  margin-left: 4px;
+}
+
+.action > i {
+  font-size: 20px;
+}
+
+.action_icon {
+  width: 48px;
+  height: 48px;
+  text-align-last: center;
+  align-content: center;
+}
+
+.action_icon > i {
+  font-size: 20px;
+  color: #0077cc;
+}
+
+.action_btn {
+  text-align-last: center;
+  align-content: center;
+}
+
+.action_btn > button {
+  padding: 8px 16px;
+  border: none;
+  background-color: rgb(0, 108, 228);
+  color: white;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.container-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.first-row-img {
+  gap: 10px;
+  align-items: normal;
+}
+
+.content-right {
+  flex: 3;
+}
+
+.content-left {
+  flex: 1;
+  gap: 10px;
+}
+
+.first-col-img {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.second-col-img {
+  flex: 1;
+}
+
+.first-col-img img {
+  height: 170px;
+  width: auto;
+}
+
+.second-col-img img {
+  height: 350px;
+  width: auto;
+}
+
+.second-row-img {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.second-row-img img {
+  height: 110px;
+  width: auto;
+  flex: 1;
+}
+
+.content-left {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.review-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  height: 290px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-header h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.review-header .score {
+  background-color: #0071c2;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.rating-count {
+  font-size: 12px;
+  color: #666;
+}
+
+.review-body {
+  margin-bottom: 15px;
+}
+
+.review-body::after {
+  content: "";
+  display: block;
+  position: absolute;
+  transform: translate(-16px, -8500%);
+  border-top: 1px solid #ddd;
+  width: 255px;
+}
+
+.review-body h4 {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.review-body p {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.review-profile {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.review-profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.profile-location {
+  font-size: 12px;
+  color: #666;
+}
+
+.review-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  padding-top: 10px;
+  width: 100%;
+  margin-top: 33%;
+}
+
+.review-footer::after {
+  content: "";
+  display: block;
+  position: absolute;
+  transform: translate(-16px, -3900%);
+  border-top: 1px solid #ddd;
+  width: 255px;
+}
+
+.footer-location {
+  font-weight: bold;
+}
+
+.footer-score {
+  background-color: #f3f4f6;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.map > iframe {
+  border-radius: 5px;
+}
+
+.container-description {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: normal;
+}
+
+.service-favor {
+  margin-top: 16px;
+}
+
+.services {
+  margin-top: 10px;
+}
+
+.services > i {
+  color: green;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.services > span {
+  margin-right: 8px;
+}
+
+.container-highlight {
+  background-color: #f0f6ff;
+  border-radius: 5px;
+  padding: 16px;
+}
+
+.highlight-header,
+.highlight-content > h4 {
+  margin-bottom: 10px;
+}
+
+.icon-local {
+  padding: 8px;
+}
+
+.icon-local > i {
+  font-size: 20px;
+}
+
+.btn-footer {
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background-color: #006ce4;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-top: 16px;
+}
