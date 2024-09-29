@@ -4,91 +4,196 @@
     font-family: Arial, sans-serif;
 }
 
-.header_main{
-    background-color: #003b95;
+.header_main {
+  background-color: #003b95;
 }
 
-.header{
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    align-items: center;
-    box-sizing: border-box;
-    position: relative;
-    padding: 8px 16px;
-    margin: 0 auto;
-    max-width: 1140px;
-    width: 100%;
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  padding: 8px 16px;
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 100%;
 }
 
-.header_logo{
-    width: 200px;
+.header_logo {
+  width: 200px;
 }
 
-.header_btn{
-
+.header_btn {
 }
 
-.header_btn-item{
-    background-color: white;
-    padding: 4px 12px;
-    height: 36px;
-    color: #006CE4;
-    font-weight: 500;
-    border-radius: 5px;
-    font-size: 14px;
-    border-color: #006CE4;
+.header_btn-item {
+  background-color: white;
+  padding: 4px 12px;
+  height: 36px;
+  color: #006ce4;
+  font-weight: 500;
+  border-radius: 5px;
+  font-size: 14px;
+  border-color: #006ce4;
 }
 
-.select_date{
-    background: linear-gradient(to bottom, #003b95 0, #003b95 50%, transparent 50%, transparent);
-    height: 62px;
-    padding-top: 4px;
+.header_btn-item:hover {
+  opacity: 0.9;
 }
 
-.select_date_form{
-    display: flex;
-    margin: 24px 0 16px;
-    left: 50%;
-    max-width: 1100px;
-    position: absolute;
-    transform: translate(-50%, calc(24px * -1));
-    width: calc(100% - 10px);
-    z-index: 10;
-    justify-content: center;
-    border: 4px solid #FFB700;
-    border-radius: 5px;
+.select_date {
+  background: linear-gradient(
+    to bottom,
+    #003b95 0,
+    #003b95 50%,
+    transparent 50%,
+    transparent
+  );
+  height: 62px;
+  padding-top: 4px;
 }
 
-.header_input_form{
-    display: flex;
-    color: black;
-    padding: 8px;
-    background-color: white;
-    width: fit-content;
-    align-items: center;
+.select_date_form {
+  display: flex;
+  margin: 24px 0 16px;
+  left: 50%;
+  max-width: 1100px;
+  position: absolute;
+  transform: translate(-50%, calc(24px * -1));
+  width: calc(100% - 10px);
+  z-index: 10;
+  justify-content: center;
+  border: 4px solid #ffb700;
+  border-radius: 5px;
 }
 
+.header_input_form {
+  display: flex;
+  color: black;
+  padding: 8px;
+  background-color: white;
+  width: fit-content;
+  align-items: center;
+}
 
 .header_input_form > i {
-    padding-left: 8px;
+  padding-left: 8px;
 }
 
-.input_form{
-    border: none;
-    padding: 4px 8px;
+.input_form {
+  border: none;
+  padding: 4px 8px;
+  width: 100%;
+  height: 20px;
+  font-size: 15px;
+}
+
+.input_form:focus {
+  outline: none;
 }
 
 .input_form::placeholder {
-    color: black;
+  color: black;
 }
 
-.header_btn_form{
-    border: none;
-    background-color: blue;
-    padding: 4px 24px;
-    color: white;
-    font-size: 20px;
+.header_dropdown_form {
+  border: none;
+  padding: 4px 8px;
+  width: 100%;
+  height: 20px;
+  font-size: 15px;
+  background-color: transparent;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_dropdown_form:hover {
+  cursor: pointer;
+}
+
+.header_input_form:hover .options {
+  display: block;
+}
+
+.options {
+  position: absolute;
+  top: calc(140% - 2px);
+  width: 240px;
+  box-shadow: 0px 2px 16px 0px rgba(26, 26, 26, 0.24);
+  padding-left: 0;
+  border-radius: 4px;
+  display: none;
+  animation: fadeIn ease-in 0.2s;
+  background-color: white;
+  padding: 32px;
+  right: 90px;
+}
+
+.input-adult {
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.label-adult {
+  font-weight: 700;
+  flex: 2;
+}
+
+.select-adult {
+  display: flex;
+  align-items: center;
+  border: 1px solid #868686;
+  border-radius: 4px;
+  flex: 2;
+  justify-content: space-between;
+}
+
+.select-adult > span {
+  font-weight: bold;
+}
+
+.select-adult > button {
+  width: 24px;
+  height: 32px;
+  padding: 4px 8px;
+  background-color: transparent;
+  text-align: left;
+  border: none;
+  align-items: center;
+  display: flex;
+  font-size: 18px;
+  color: rgb(0, 108, 228);
+}
+
+.confirm-option {
+  border: 1px solid #006ce4;
+  width: 100%;
+  border-radius: 4px;
+  padding: 4px 12px;
+  color: #006ce4;
+  font-weight: 700;
+  background-color: transparent;
+  margin-top: 16px;
+}
+
+.icon-dropdown {
+  padding-right: 8px;
+}
+
+.header_btn_form {
+  border: none;
+  background-color: blue;
+  padding: 4px 24px;
+  color: white;
+  font-size: 20px;
+}
+
+.header_btn_form:hover {
+  opacity: 0.8;
 }
 
 .text_heading_first{

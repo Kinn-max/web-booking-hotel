@@ -46,22 +46,242 @@
             <i class="fa-solid fa-calendar-days"></i>
             <input
               class="input_form"
-              type="text"
-              placeholder="Bạn muốn đến đâu?"
+              type="date"
             />
           </div>
           <div class="header_input_form" style="flex: 1">
-            <i class="fa-solid fa-bed"></i>
-            <input
-              class="input_form"
-              type="text"
-              placeholder="Bạn muốn đến đâu?"
-            />
+            <button class="header_dropdown_form">
+              <span>
+                <i class="fa-solid fa-bed icon-dropdown"></i>
+                2 người lớn · 1 phòng
+              </span>
+              <span><i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+            <div class="options">
+              <div class="input-adult df">
+                <div class="label-adult df">
+                  <label for="">Người lớn</label>
+                </div>
+                <div class="select-adult">
+                  <button>-</button>
+                  <span>2</span>
+                  <button>+</button>
+                </div>
+              </div>
+              <div class="input-adult df">
+                <div class="label-adult df">
+                  <label for="">Trẻ em</label>
+                </div>
+                <div class="select-adult">
+                  <button>-</button>
+                  <span>2</span>
+                  <button>+</button>
+                </div>
+              </div>
+              <div class="input-adult df">
+                <div class="label-adult df">
+                  <label for="">Phòng</label>
+                </div>
+                <div class="select-adult">
+                  <button>-</button>
+                  <span>2</span>
+                  <button>+</button>
+                </div>
+              </div>
+              <button class="confirm-option">Xong</button>
+            </div>
           </div>
           <button class="header_btn_form">Tìm</button>
         </div>
       </div>
     </div>
     <!-- end header -->
+
+    <!-- body -->
+    <div class="container">
+      <div class="row mt-4 df">
+        <div class="header_detail">
+          <h2 class="hotel_name">7Seasons Apartments Budapest</h2>
+          <div class="hotel_address df">
+            <i class="fa-solid fa-location-dot"></i>
+            <p>1061 Budapest, Király utca 8., Hungary -</p>
+            <a href="https://www.google.com/maps">Hiển thị bản đồ</a>
+          </div>
+        </div>
+        <div class="action df">
+          <div class="action_icon">
+            <i class="fa-regular fa-heart"></i>
+          </div>
+          <div class="action_icon">
+            <i class="fa-solid fa-up-right-from-square"></i>
+          </div>
+          <div class="action_btn">
+            <button>Đặt ngay</button>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4 container-detail">
+        <div class="content-right">
+          <div class="first-row-img df">
+            <div class="first-col-img">
+              <img src="../images/hotel detail/1.jpg" alt="" srcset="" />
+              <img src="../images/hotel detail/2.jpg" alt="" srcset="" />
+            </div>
+            <div class="second-col-img">
+              <img src="../images/hotel detail/3.jpg" alt="" srcset="" />
+            </div>
+          </div>
+          <div class="second-row-img">
+            <img src="../images/hotel detail/4.jpg" alt="" srcset="" />
+            <img src="../images/hotel detail/5.jpg" alt="" srcset="" />
+            <img src="../images/hotel detail/6.jpg" alt="" srcset="" />
+            <img src="../images/hotel detail/7.jpg" alt="" srcset="" />
+          </div>
+        </div>
+        <div class="content-left">
+          <div class="review-container">
+            <div class="review-header">
+              <div>
+                <h3>Tuyệt vời</h3>
+                <span class="rating-count">11.493 đánh giá</span>
+              </div>
+              <div class="score">8,8</div>
+            </div>
+
+            <div class="review-body">
+              <h4>Khách lưu trú ở đây thích điều gì?</h4>
+              <p>
+                "The location is perfect, very close to everything, and the
+                apartment is comfortable, and the staff is very helpful"
+              </p>
+            </div>
+
+            <div class="review-profile">
+              <img src="https://via.placeholder.com/40" alt="Profile Image" />
+              <div>
+                <span class="profile-name">Wilna</span><br />
+                <span class="profile-location">🇸🇨 Seychelles</span>
+              </div>
+            </div>
+
+            <div class="review-footer">
+              <span class="footer-location">Vị trí tuyệt vời!</span>
+              <div class="footer-score">9,7</div>
+            </div>
+          </div>
+          <div class="map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d400.6978213792235!2d19.056258911505143!3d47.49842802135365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4741dd462379d989%3A0x5cd224b214278472!2s7Seasons%20Apartments!5e0!3m2!1svi!2s!4v1727191717406!5m2!1svi!2s"
+              width="255"
+              height="140"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-8 container-description">
+        <div class="content-right">
+          <div class="description">
+            <p>
+              Bạn có thể đủ điều kiện hưởng giảm giá Genius tại 7Seasons
+              Apartments Budapest. Để biết giảm giá Genius có áp dụng cho ngày
+              bạn đã chọn hay không, hãy đăng nhập. <br />
+              Giảm giá Genius tại chỗ nghỉ này tùy thuộc vào ngày đặt phòng,
+              ngày lưu trú và các ưu đãi có sẵn khác. <br />
+              Thông tin uy tín: Khách nói rằng mô tả và hình ảnh chỗ nghỉ này
+              rất đúng với sự thật. Tọa lạc tại trung tâm thành phố Budapest,
+              chỉ cách trung tâm giao thông công cộng chính Deak Ferenc tér 100
+              m, 7Seasons Apartments cung cấp dịch vụ lễ tân 24 giờ và các căn
+              hộ rộng rãi có 1 - 3 phòng ngủ. <br />
+              Tất cả các căn hộ đều có Internet không dây miễn phí. Du khách có
+              thể yêu cầu trước dịch vụ đưa đón và dọn dẹp hằng ngày với một
+              khoản phụ phí. Tất cả các căn hộ tại đây đều có bếp để du khách tự
+              chuẩn bị bữa ăn, tuy nhiên du khách cũng có thể tìm thấy rất nhiều
+              quán café, nhà hàng và siêu thị 24 giờ ngay tại khu vực lân cận
+              của 7Seasons Apartments. Du khách có thể dễ dàng đi bộ tới nhà thờ
+              St. Stephen’s Basilica, giáo dường Do Thái Great Synagogue, nhà
+              hát State Opera House cũng như Tòa nhà Quốc hội Hungary. Các cặp
+              đôi đặc biệt thích địa điểm này — họ cho điểm 9,7 khi đánh giá
+              chuyến đi hai người.
+            </p>
+          </div>
+          <div class="service-favor">
+            <h3>Các tiện nghi được ưa chuộng nhất</h3>
+            <div class="services">
+              <i class="fa-solid fa-square-parking"></i>
+              <span>Chỗ đậu xe (trong khuôn viên)</span>
+              <i class="fa-solid fa-ban-smoking"></i>
+              <span>Phòng không hút thuốc</span>
+              <i class="fa-solid fa-wifi"></i>
+              <span>WiFi miễn phí</span>
+              <i class="fa-solid fa-car-side"></i>
+              <span>Xe đưa đón sân bay</span>
+              <br />
+              <br />
+              <i class="fa-solid fa-people-roof"></i>
+              <span>Phòng gia đình</span>
+              <i class="fa-solid fa-hotel"></i>
+              <span>Lễ tân 24 giờ</span>
+              <i class="fa-solid fa-elevator"></i>
+              <span>Thang máy</span>
+            </div>
+          </div>
+        </div>
+        <div class="content-left">
+          <div class="container-highlight">
+            <div class="highlight-header">
+              <h3>Điểm nổi bật của chỗ nghỉ</h3>
+            </div>
+            <div class="highlight-content">
+              <h4>Hoàn hảo cho kỳ nghỉ 1 đêm!</h4>
+              <p class="df">
+                <span class="icon-local">
+                  <i class="fa-solid fa-location-dot"></i>
+                </span>
+                <span>
+                  Nằm ngay trung tâm Budapest, chỗ nghỉ này có điểm vị trí tuyệt
+                  vời - 9,7
+                </span>
+              </p>
+            </div>
+            <div class="highlight-content" style="margin-top: 10px">
+              <h4>Thông tin về bữa sáng</h4>
+              <p class="df">
+                <span>
+                  Kiểu lục địa, Kiểu Anh/ Ai Len, Thực đơn chay, Kiêng Gluten,
+                  Tự chọn, Bữa sáng mang đi
+                </span>
+              </p>
+            </div>
+            <div class="highlight-content" style="margin-top: 10px">
+              <h4>Căn hộ với:</h4>
+              <p class="df">
+                <span class="icon-local">
+                  <i class="fa-solid fa-tree"></i>
+                </span>
+                <span>
+                  Hướng nhìn sân trong
+                </span>
+              </p>
+              <p class="df"></p>
+                <span class="icon-local">
+                  <i class="fa-solid fa-square-parking"></i>
+                </span>
+                <span>
+                  Có chỗ đậu xe trong khuôn viên
+                </span>
+              </p>
+            </div>
+            <button class="btn-footer">
+              Đặt ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end body -->
   </body>
 </html>
