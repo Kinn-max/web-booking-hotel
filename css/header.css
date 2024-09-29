@@ -1,6 +1,7 @@
 *{
     padding: 0;
     margin: 0;
+    font-family: Arial, sans-serif;
 }
 
 .header_main{
@@ -88,4 +89,10 @@
     padding: 4px 24px;
     color: white;
     font-size: 20px;
+}
+
+.text_heading_first{
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
 }
