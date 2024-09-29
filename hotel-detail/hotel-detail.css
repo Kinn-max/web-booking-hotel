@@ -259,12 +259,17 @@ a {
   align-items: normal;
 }
 
+.description {
+  line-height: 25px;
+}
+
 .service-favor {
   margin-top: 16px;
 }
 
 .services {
   margin-top: 10px;
+  line-height: 30px;
 }
 
 .services > i {
