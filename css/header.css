@@ -109,8 +109,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
-
+.connect_two-element{
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  bottom: -25px;
+  background-color: transparent;
+}
 .header_dropdown_form:hover {
   cursor: pointer;
 }
@@ -132,6 +139,7 @@
   padding: 32px;
   right: 90px;
 }
+
 
 .input-adult {
   justify-content: space-between;
