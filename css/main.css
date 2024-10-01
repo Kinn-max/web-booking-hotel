@@ -1,135 +1,118 @@
 /* Tổng thể */
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
+    font-family: Blue Sans, 'Segoe UI Variable Display';
+    margin: -20px;
+    padding: -20px;
+    background-color: #f4f4f4;
 }
 
 .section {
-  padding: 20px;
-  background-color: white;
-  margin-bottom: 20px;
+    background-color: white;
 }
 
-.section h2 {
-  text-align: left;
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 10px;
+.heading {
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 1090px;
 }
 
-.section p {
-  text-align: left;
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 20px;
+.heading h2 {
+    text-align: left;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.heading p {
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .offers-wrapper {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-.offers::-webkit-scrollbar {
-  display: none;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 1090px;
 }
 
 .offers {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
 }
 
 .hotel {
-  text-align: left;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 230px;
-  flex-shrink: 0;
-  overflow: hidden;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 10px 10px 100px rgba(0,0,0,0.1);
+    width: 260px;
+    height: 390px;
+    flex-shrink: 0;
+    overflow: hidden;
 }
 
 .hotel img {
-  top: -10px;
-  left: -20%;
-  width: 140%;
-  height: 150px;
-  object-fit: full;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  position: relative;
+    top: -5px;
+    left: -5px;
+    width: 270px;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: relative;
 }
 
 .hotel-info {
-  padding: 10px 0;
-  white-space: normal;
-  word-wrap: break-word;
+    padding: 10px 0;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .hotel-info a {
-  text-decoration: none;
-  color: black;
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
 }
 
 .hotel-info a:hover {
-  color: #005bb5;
+    color: blue;
 }
 
 .hotel-details {
-  display: flex;
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 10px;
+    display: flex;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 10px;
 }
 .hotel-details2 {
-  display: flex;
-  font-size: 14px;
-  color: #888;
-  justify-content: space-between;
+    display: flex;
+    font-size: 14px;
+    color: #888;
+    justify-content: space-between;
 }
 
 .hotel-details span {
-  flex-basis: 50%;
+    flex-basis: 50%;
 }
 
 .old-price {
-  text-decoration: line-through;
-  color: red;
-  font-size: 14px;
+    text-align: right;
+    text-decoration: line-through;
+    color: red;
+    font-size: 14px;
 }
 
 .new-price {
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.promo-button {
-  position: absolute;
-  top: 80%;
-  transform: translateY(-30%);
-  background-color: rgb(255, 255, 255);
-  color: #000000;
-  border: none;
-  padding: 18px;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 2;
-  box-shadow: -1px 2px #ddd;
-}
-
-.promo-button.left {
-  left: 210px;
-}
-
-.promo-button.right {
-  right: 216px;
+    text-align: right;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
 }
