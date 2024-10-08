@@ -17,3 +17,15 @@ function updateValue(field, increment) {
     numberOfBed.textContent = valueInput
     inputShow.textContent = valueInput
 }
+
+// click filter
+document.getElementById("search-btn").addEventListener("click", function() {
+    const selectedRadio = document.querySelector(".filter-radio:checked");
+    
+    if (selectedRadio) {
+      const queryString = `destination=${encodeURIComponent(selectedRadio.value.trim())}`;
+      window.location.href = `/Booking-hotel/search.php?${queryString}`;
+    } else {
+      window.location.href = '/Booking-hotel/search.php';
+    }
+});
