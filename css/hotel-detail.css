@@ -134,120 +134,6 @@ a {
   height: 100%;
 }
 
-.review-container {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  height: 290px;
-}
-
-.review-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.review-header h3 {
-  font-size: 18px;
-  margin: 0;
-}
-
-.review-header .score {
-  background-color: #0071c2;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.rating-count {
-  font-size: 12px;
-  color: #666;
-}
-
-.review-body {
-  margin-bottom: 15px;
-}
-
-.review-body::after {
-  content: "";
-  display: block;
-  position: absolute;
-  transform: translate(-16px, -8500%);
-  border-top: 1px solid #ddd;
-  width: 255px;
-}
-
-.review-body h4 {
-  font-size: 14px;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-.review-body p {
-  font-size: 12px;
-  color: #666;
-  margin: 0;
-}
-
-.review-profile {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-}
-
-.review-profile img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.profile-name {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.profile-location {
-  font-size: 12px;
-  color: #666;
-}
-
-.review-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  padding-top: 10px;
-  width: 100%;
-  margin-top: 33%;
-}
-
-.review-footer::after {
-  content: "";
-  display: block;
-  position: absolute;
-  transform: translate(-16px, -3900%);
-  border-top: 1px solid #ddd;
-  width: 255px;
-}
-
-.footer-location {
-  font-weight: bold;
-}
-
-.footer-score {
-  background-color: #f3f4f6;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-}
-
 .map > iframe {
   border-radius: 5px;
 }
@@ -301,14 +187,110 @@ a {
   font-size: 20px;
 }
 
-.btn-footer {
+.container-room {
+  flex-wrap: wrap;
+}
+
+.card-room {
+  width: 95%;
+  border: 1px solid #daefff;
+  background-color: #f8f8f8;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  height: 100%;
+}
+
+.image-room {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-room img {
+  object-fit: cover;
+  border-radius: 1rem;
+}
+
+.info-room {
+  width: 73%;
+  position: relative;
+}
+
+.info-room label {
+  font-weight: 650;
+  font-size: 18px;
+  text-align: left;
+}
+
+.info-room hr {
+  margin: 10px 0;
+}
+
+.more-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.benefits {
+  width: 70%;
+}
+
+.benefits-list {
+  display: flex;
   width: 100%;
-  padding: 8px 16px;
-  border: none;
-  background-color: #006ce4;
-  color: white;
+}
+
+.benefits-column {
+  width: 50%;
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  gap: 0.5rem;
+}
+
+.price-room {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.price-room span {
+  font-size: 18px;
+  color: #e01600;
   font-weight: 700;
-  font-size: 14px;
-  border-radius: 5px;
-  margin-top: 16px;
+  text-align: center;
+}
+
+.price-room small {
+  font-size: 16px;
+  font-weight: 500;
+  color: #171717;
+}
+
+.price-room button {
+  border-radius: 8px;
+  padding: 14px 0;
+  font-size: 16px;
+  font-weight: 650;
+  text-transform: uppercase;
+  background-color: #e01600;
+  margin-top: 8px;
+  color: #fff;
+  border: none;
+}
+
+.price-room button:hover {
+  background-color: #ad1100;
+  border: none;
+  cursor: pointer;
 }

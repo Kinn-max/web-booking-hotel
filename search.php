@@ -3,25 +3,38 @@ include("config/connect.php");
 
 
 
-$where = " WHERE 1=1"; 
 $nameSearch = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $destination = isset($_POST['destination']) ? $_POST['destination'] : "";
-    $date = isset($_POST['date']) ? $_POST['date'] : "";
-    $rooms = isset($_POST['rooms']) ? $_POST['rooms'] : "";
+$where = " WHERE r.is_available = false"; 
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+  
+    $destination = isset($_GET['destination']) ? $_GET['destination'] : "";
+    $bed = isset($_GET['rooms']) ? $_GET['rooms'] : "";
 
     if (!empty($destination)) {
         $destination = mysqli_real_escape_string($mysqli, $destination);
-        $where .= " AND address LIKE '%$destination%' "; 
+        $where .= " AND h.address LIKE '%$destination%' "; 
     }
+    if (!empty($bed)) {
+      $bed = intval($bed); 
+      $where .= " AND r.room_type >= $bed "; 
+  }
     $nameSearch .= $destination;
 
 }
 
 // Câu lệnh SQL
-$sql_search = "SELECT * FROM hotel" . $where . " ORDER BY id ASC LIMIT 20";
+$sql_search = "
+    SELECT h.* 
+    FROM hotel h
+    JOIN room r ON h.id = r.id_hotel
+    " . $where . "
+    GROUP BY h.id
+    ORDER BY h.id ASC 
+    LIMIT 20
+";
 $sql_search_final = mysqli_query($mysqli, $sql_search);
 $count_hotel = mysqli_num_rows($sql_search_final);
+
 // Câu lệnh SQL
 $sql_city = "SELECT * FROM city";
 
@@ -71,7 +84,7 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
       </div>
       <div class="select_date">
        
-      <form action="search.php" method="POST">
+      <form action="search.php" method="GET">
         <div class="select_date_form">
             <div class="header_input_form" style="flex: 2">
                 <i class="fa-solid fa-bed"></i>
@@ -121,22 +134,22 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
       <div class="group-filter">
         <div class="group-filter--search" style="display: flex;">
           <h2 class="item-name">Chọn theo lọc</h2>
-          <div class="icon-search--filter"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />
-              <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466" />
-            </svg></div>
+          <div class="icon-search--filter">
+            <a id="search-btn" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />
+                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466" />
+              </svg></div>
+            </a>
         </div>
         <div class="filter-item">
           <ul>
-            <?php while ($result = mysqli_fetch_array($sql_city_final)) {
-            ?>
-               <li>
-                  <input type="checkbox" />
-                  <?php echo $result['name']   ?>
+            <?php while ($result = mysqli_fetch_array($sql_city_final)) { ?>
+              <li>
+                <input type="radio" class="filter-radio" name="city" value="<?php echo trim($result['name']) ?>" />
+                <?php echo $result['name'] ?>
               </li>
-            <?php
-            }
-            ?>
+            <?php } ?>
           </ul>
         </div>
       </div>
@@ -206,6 +219,7 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
                     </div>
                   </div>
                   <div class="btn-button">
+                    <a href="/hotel-detail.php?slug=<?php echo $rom["slug"] ?>"></a>
                     <button class="btn-primary">
                       Xem chỗ trống
                       <svg
