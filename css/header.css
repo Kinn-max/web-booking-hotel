@@ -111,7 +111,7 @@
   justify-content: space-between;
   position: relative;
 }
-.connect_two-element{
+.connect_two-element {
   width: 200px;
   height: 30px;
   position: absolute;
@@ -139,7 +139,6 @@
   padding: 32px;
   right: 90px;
 }
-
 
 .input-adult {
   justify-content: space-between;
