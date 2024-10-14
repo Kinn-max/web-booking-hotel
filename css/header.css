@@ -111,7 +111,7 @@
   justify-content: space-between;
   position: relative;
 }
-.connect_two-element{
+.connect_two-element {
   width: 200px;
   height: 30px;
   position: absolute;
@@ -139,7 +139,6 @@
   padding: 32px;
   right: 90px;
 }
-
 
 .input-adult {
   justify-content: space-between;
@@ -208,108 +207,4 @@
   font-size: 28px;
   font-weight: bold;
   color: black;
-}
-
-.card-room {
-  width: 100%;
-  border: 1px solid #daefff;
-  background-color: #f8f8f8;
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.card-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
-  height: 100%;
-}
-
-.image-room {
-  width: 25%;
-  display: flex;
-  flex-direction: column;
-}
-
-.image-room img {
-  object-fit: cover;
-  border-radius: 1rem;
-}
-
-.info-room {
-  width: 73%;
-  position: relative;
-}
-
-.info-room label {
-  font-weight: 650;
-  font-size: 18px;
-  text-align: left;
-}
-
-.info-room hr {
-  margin: 10px 0;
-}
-
-.more-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.benefits {
-  width: 70%;
-}
-
-.benefits-list {
-  display: flex;
-  width: 100%;
-}
-
-.benefits-column {
-  width: 50%;
-  display: grid;
-  grid-template-rows: repeat(4, auto);
-  gap: 0.5rem;
-}
-
-.price-room {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-}
-
-.price-room span {
-  font-size: 18px;
-  color: #e01600;
-  font-weight: 700;
-  text-align: center;
-}
-
-.price-room small {
-  font-size: 16px;
-  font-weight: 500;
-  color: #171717;
-}
-
-.price-room button {
-  border-radius: 8px;
-  padding: 14px 0;
-  font-size: 16px;
-  font-weight: 650;
-  text-transform: uppercase;
-  background-color: #e01600;
-  margin-top: 8px;
-  color: #fff;
-  border: none;
-}
-
-.price-room button:hover {
-  background-color: #ad1100;
-  border: none;
-  cursor: pointer;
 }
