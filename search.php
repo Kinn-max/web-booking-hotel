@@ -219,7 +219,7 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
                     </div>
                   </div>
                   <div class="btn-button">
-                    <a href="/hotel-detail.php?slug=<?php echo $rom["slug"] ?>"></a>
+                    <a href="/Booking-hotel/hotel-detail.php?slug=<?php echo $result["slug"] ?>">
                     <button class="btn-primary">
                       Xem chỗ trống
                       <svg
@@ -234,6 +234,7 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
                           d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
                       </svg>
                     </button>
+                    </a>
                   </div>
                   <?php 
                     }else{
