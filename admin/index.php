@@ -33,22 +33,34 @@
                 </div>
             </div>
             <ul class="category_list">
-                <li class="category_list-item menu_ts">
-                    <div class="show_category-both">
-                        <div class="both_icon">
-                            <i class="fa-solid fa-layer-group"></i>
-                            <p>Thêm khách sạn</p>
+                <a href="?page=hotel"  class="text-category">
+                    <li class="category_list-item menu_ts">
+                        <div class="show_category-both">
+                            <div class="both_icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <p>Thêm khách sạn</p>
+                            </div>
+                            <div class="round-round">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
                         </div>
-                        <div class="round-round">
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                </a>
             </ul>
         </div>
-        <div class="content">
-                    //item
+        <div class="content" id="content">
+            <?php 
+                if(isset($_GET['page'])){
+                    $page = $_GET['page'];
+                    switch($page){
+                        case 'hotel':
+                            include 'pages/hotel.php';
+                            break;
+                    }
+                }
+            ?>
         </div>
     </div>
+
 </body>
 </html>
