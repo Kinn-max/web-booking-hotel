@@ -33,12 +33,27 @@
                 </div>
             </div>
             <ul class="category_list">
+                <!--  -->
                 <a href="?page=hotel"  class="text-category">
                     <li class="category_list-item menu_ts">
                         <div class="show_category-both">
                             <div class="both_icon">
                                 <i class="fa-solid fa-layer-group"></i>
                                 <p>Thêm khách sạn</p>
+                            </div>
+                            <div class="round-round">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                <!--  -->
+                <a href="?page=booking"  class="text-category">
+                    <li class="category_list-item menu_ts">
+                        <div class="show_category-both">
+                            <div class="both_icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <p>Các đơn hàng đã đặt</p>
                             </div>
                             <div class="round-round">
                                 <i class="fa-solid fa-chevron-down"></i>
@@ -55,6 +70,9 @@
                     switch($page){
                         case 'hotel':
                             include 'pages/hotel.php';
+                            break;
+                        case 'booking':
+                            include 'pages/booking.php';
                             break;
                     }
                 }
