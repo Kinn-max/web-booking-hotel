@@ -248,9 +248,9 @@ foreach ($rooms as $room) {
                 echo '</div>
                             </div>
                             <div class="price-room">
-                                <span>
-                                    1,236,054 đ
-                                    <small>/ 1 đêm</small>
+                                <span>'
+                    . $rooms[$i]['price'] .
+                    '<small>/ 1 đêm</small>
                                 </span>
                                 <button>Chọn phòng</button>
                             </div>
