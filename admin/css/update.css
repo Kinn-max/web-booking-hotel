@@ -1,0 +1,97 @@
+/* Đặt kiểu nền và căn chỉnh */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+.header_main{
+    width: 100%;
+}
+
+/* Tạo kiểu cho vùng chứa form */
+.form-container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Tiêu đề */
+h2 {
+    text-align: center;
+    color: #333333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Định dạng các label */
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+    color: #555555;
+}
+
+/* Định dạng các trường nhập liệu */
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+}
+
+#option{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+}
+
+/* Định dạng nút bấm */
+button {
+    background-color: #006ce4;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #003b95;
+}
+
+/* Hình ảnh xem trước */
+.image-preview {
+    display: flex;
+    flex-wrap: wrap; /* Allow images to wrap to the next line */
+    gap: 10px; /* Space between images */
+}
+
+.image-container {
+    flex: 1 1 calc(33.33% - 10px); /* Adjusts width to 33.33% for up to 3 images in a row */
+    max-width: calc(33.33% - 10px); /* Ensures no more than 3 images per row */
+}
+
+.image-container img {
+    width: 100%; /* Make images responsive */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5px; /* Optional: for rounded corners */
+}
