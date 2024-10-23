@@ -6,8 +6,12 @@ if(isset($_SESSION['userrEmail'])){
 }
 
 //truy vấn dữ liệu
-$city = "SELECT * FROM city";
+$city = "SELECT city.id, city.name, city.image, COUNT(hotel.id) AS total_hotels
+        FROM city LEFT JOIN hotel ON city.id = hotel.id_city GROUP BY city.id, city.name, city.image";
 $cityData = $mysqli->query($city);
+
+$hotel = "SELECT * FROM hotel";
+$hotelData = $mysqli->query($hotel);
 ?>
 
 
@@ -114,18 +118,10 @@ $cityData = $mysqli->query($city);
                             <a href="#">
                                 <img src="<?php echo "./images/kham-pha-vn/" . $rowCity['image'] ?>" />
                                 <h3> <?php echo $rowCity['name'] ?></h3>
-                                <?php $countHotel = 0; ?>
-                                <?php while ($rowHotel = $hotelData->fetch_assoc()) { ?>
-                                    <?php if ($rowHotel['id_city'] == $rowCity['id']) { ?>
-                                        <?php $countHotel = $countHotel + 1; ?>
-                                    <?php } ?>
-                                <?php } ?>
-                                <p><?php echo $countHotel . " chỗ nghỉ" ?></p>
+                                <p><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></p>
                             </a>
                         </div>
                     <?php } ?>
-
-
                 </div>
                 <button class="nav-button right" onclick="scrollCarousel(1)">
                     &#8250;

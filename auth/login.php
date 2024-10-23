@@ -25,7 +25,9 @@ if (isset($_POST['login'])) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if ($user['password'] == $password) { // Kiểm tra mật khẩu
+            echo $user['role'];
             if ($user['role'] == "admin") {
+                $_SESSION['admin'] = $email;
                 header('location: ../admin/index.php');
             } else {
                 $_SESSION['userEmail'] = $email; // Tạo session nếu đăng nhập thành công
