@@ -39,6 +39,9 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
             case 'user':
                 echo '<link rel="stylesheet" href="css/user.css">';
                 break;
+            case "booking":
+                echo '<link rel="stylesheet" href="css/service.css">';
+                break;
         }
     }
     ?>

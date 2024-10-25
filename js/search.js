@@ -24,8 +24,8 @@ document.getElementById("search-btn").addEventListener("click", function() {
     
     if (selectedRadio) {
       const queryString = `destination=${encodeURIComponent(selectedRadio.value.trim())}`;
-      window.location.href = `/Booking-hotel/search.php?${queryString}`;
+      window.location.href = `/web-booking-hotel/search.php?${queryString}`;
     } else {
-      window.location.href = '/Booking-hotel/search.php';
+      window.location.href = '/web-booking-hotel/search.php';
     }
 });

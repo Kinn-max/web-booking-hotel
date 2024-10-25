@@ -4,36 +4,21 @@ $sql = "SELECT * FROM booking";
 
 $sql_city_final = mysqli_query($mysqli, $sql);
 ?>
-<style>
-    table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    }
 
-    td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    }
-
-    tr:nth-child(even) {
-    background-color: #dddddd;
-    }
-</style>
-<div>
-    <table>
-    <tr>
-        <th>Stt</th>
-        <th>Tên khách hàng</th>
-        <th>Phòng</th>
-        <th>Khách sạn</th>
-        <th>Ngày đặt phòng</th>
-        <th>Ngày trả phòng</th>
-        <th>Ngày tạo</th>
-        <th>Tổng tiền</th>
-        <th>Trạng thái</th>
-    </tr>
+<div class="table-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+            <th>Stt</th>
+            <th>Tên khách hàng</th>
+            <th>Phòng</th>
+            <th>Khách sạn</th>
+            <th>Ngày đặt phòng</th>
+            <th>Ngày trả phòng</th>
+            <th>Ngày tạo</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+        </thead>
     <?php 
     $stt = 1;
     while ($result = mysqli_fetch_array($sql_city_final)) { 
