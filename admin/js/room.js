@@ -13,10 +13,10 @@ var close = document.getElementsByClassName("close")[0]
 var updateButtons = document.querySelectorAll(".btn-update")
 
 btn.onclick = function () {
-  document.querySelector('h2[class="title-form"]').innerText = "Add Room"
+  document.querySelector('h2[class="title-form"]').innerText = "Thêm phòng"
   document.querySelector("form").reset()
   document.querySelector('input[name="room-id"]').value = ""
-  document.querySelector('button[name="save"]').innerText = "ADD"
+  document.querySelector('button[name="save"]').innerText = "Thêm"
   modal.style.display = "block"
 }
 
@@ -33,7 +33,7 @@ updateButtons.forEach(function (updateButton) {
       .then((data) => {
         // Populate the form with the fetched data
         document.querySelector('h2[class="title-form"]').innerText =
-          "Update Room"
+          "Chỉnh sửa phòng"
 
         document.querySelector('input[name="room-id"]').value = roomId
         document.querySelector('input[name="room-name"]').value = data.name
@@ -49,7 +49,7 @@ updateButtons.forEach(function (updateButton) {
         document.querySelector('select[name="hotel"]').value = data.id_hotel
 
         // Change the button text to "Update"
-        document.querySelector('button[name="save"]').innerText = "Update"
+        document.querySelector('button[name="save"]').innerText = "Chỉnh sửa"
 
         // Display the modal
         modal.style.display = "block"

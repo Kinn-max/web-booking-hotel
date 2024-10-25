@@ -36,6 +36,9 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
             case 'hotel':
                 echo '<link rel="stylesheet" href="css/city.css">';
                 break;
+            case 'user':
+                echo '<link rel="stylesheet" href="css/user.css">';
+                break;
         }
     }
     ?>
@@ -132,6 +135,19 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
                         </div>
                     </li>
                 </a>
+                <a href="?page=user" class="text-category">
+                    <li class="category_list-item menu_ts">
+                        <div class="show_category-both">
+                            <div class="both_icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <p>Người dùng</p>
+                            </div>
+                            <div class="round-round">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </li>
+                </a>
             </ul>
         </div>
         <?php
@@ -156,6 +172,10 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
 
                 case 'room':
                     include 'pages/room.php';
+                    break;
+
+                case 'user':
+                    include 'pages/user.php';
                     break;
             }
         }

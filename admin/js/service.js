@@ -10,7 +10,7 @@ var updateButtons = document.querySelectorAll(".btn-update")
 btn.onclick = function () {
   document.querySelector("form").reset()
   document.querySelector('input[name="service-id"]').value = ""
-  document.querySelector('button[name="save"]').innerText = "ADD"
+  document.querySelector('button[name="save"]').innerText = "Thêm"
   modal.style.display = "block"
 }
 
@@ -30,7 +30,7 @@ updateButtons.forEach(function (updateButton) {
     document.querySelector('input[name="icon"]').value = serviceIconClass
 
     // Update button label
-    document.querySelector('button[name="save"]').innerText = "Update"
+    document.querySelector('button[name="save"]').innerText = "Cập nhật"
 
     // Show the modal
     modal.style.display = "block"

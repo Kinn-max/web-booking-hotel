@@ -115,9 +115,9 @@ if (isset($_GET['delete_id'])) {
 ?>
 
 <div class="container-room">
-    <h2>Add Room</h2>
+    <h2>Phòng</h2>
 
-    <button id="openDialogBtn" class="add">Add Room</button>
+    <button id="openDialogBtn" class="add">Thêm phòng</button>
 
     <div id="roomDialog" class="modal">
         <div class="modal-content">
@@ -129,27 +129,27 @@ if (isset($_GET['delete_id'])) {
                     <input type="hidden" name="room-id">
                     <input type="hidden" name="photo">
                     <div class="form-group">
-                        <label for="room-name">Room name: </label>
+                        <label for="room-name">Tên phòng: </label>
                         <input type="text" name="room-name" class="input-form" id="room-name" required>
                     </div>
                     <div class="form-group">
-                        <label>Quantity people: </label>
+                        <label>Số lượng người: </label>
                         <input type="text" id="quantity" class="input-form" name="quantity" required>
                     </div>
                     <div class="form-group">
-                        <label>Description: </label>
+                        <label>Mô tả: </label>
                         <textarea name="description" id="description" class="input-form"></textarea>
                     </div>
                     <div class="form-group">
-                        <label>Price: </label>
+                        <label>Giá: </label>
                         <input type="text" id="price" class="input-form" name="price" placeholder="X,XXX,XXX" required>
                     </div>
                     <div class="form-group">
-                        <label>Image: </label>
+                        <label>Hình ảnh: </label>
                         <input type="file" id="image" class="input-form" name="image">
                     </div>
                     <div class="sd-multiSelect form-group">
-                        <label for="current-job-role">Service</label>
+                        <label for="current-job-role">Dịch vụ</label>
                         <select multiple id="current-job-role" class="sd-CustomSelect" name="service[]">
                             <?php
                             foreach ($service as $row) {
@@ -159,7 +159,7 @@ if (isset($_GET['delete_id'])) {
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Hotel</label>
+                        <label>Khách sạn</label>
                         <select name="hotel" class="select-form">
                             <?php
                             foreach ($hotel as $row) {
@@ -182,10 +182,10 @@ if (isset($_GET['delete_id'])) {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th style="width: 40%;">Image</th>
-                    <th>Room name</th>
-                    <th>Hotel</th>
-                    <th>Action</th>
+                    <th style="width: 40%;">Hình ảnh</th>
+                    <th>Tên phòng</th>
+                    <th>Khách sạn</th>
+                    <th>Tùy chọn</th>
                 </tr>
             </thead>
             <tbody>
@@ -196,8 +196,8 @@ if (isset($_GET['delete_id'])) {
                             <td><img class='thumbnail' src='../images/rooms/" . $room[$i]['image'] . "'></td>
                             <td>" . $room[$i]['room_name'] . "</td>" .
                         '<td>' . $room[$i]['hotel_name'] . '</td>' .
-                        "<td><a href='/web-booking-hotel/admin/index.php?page=room&update_id=" . $room[$i]['room_id'] . "' class='btn-update'>Update</a>
-                         | <a href='/web-booking-hotel/admin/index.php?page=room&delete_id=" . $room[$i]['room_id'] . "' class='btn-delete'>Delete</a>
+                        "<td><a href='/web-booking-hotel/admin/index.php?page=room&update_id=" . $room[$i]['room_id'] . "' class='btn-update'>Chỉnh sửa</a>
+                         | <a href='/web-booking-hotel/admin/index.php?page=room&delete_id=" . $room[$i]['room_id'] . "' class='btn-delete'>Xóa</a>
                         </td>
                         </tr>";
                 }

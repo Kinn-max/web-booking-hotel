@@ -49,20 +49,20 @@ if (isset($_GET['delete_id'])) {
 ?>
 
 <div class="container-service">
-    <h2>Add Service</h2>
+    <h2>Thêm dịch vụ</h2>
 
-    <button id="openDialogBtn" class="add">Add Service</button>
+    <button id="openDialogBtn" class="add">Thêm</button>
 
     <div id="serviceDialog" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Service</h2>
+            <h2>Dịch vụ</h2>
 
             <div class="form-service-hotel">
                 <form action="" method="post">
                     <input type="hidden" name="service-id" value="<?php echo $service_to_update ? $service_to_update['id'] : ''; ?>">
                     <div class="form-group">
-                        <label for="service-name">Service name: </label>
+                        <label for="service-name">Tên dịch vụ: </label>
                         <input type="text" name="service-name" class="input-form" id="service-name" required>
                     </div>
                     <div class="form-group">
@@ -70,7 +70,7 @@ if (isset($_GET['delete_id'])) {
                         <input type="text" id="iconpicker" class="input-form" name="icon">
                     </div>
                     <div>
-                        <button class="save" type="submit" name="save">Save</button>
+                        <button class="save" type="submit" name="save">Lưu</button>
                     </div>
                 </form>
             </div>
@@ -82,9 +82,9 @@ if (isset($_GET['delete_id'])) {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Service name</th>
+                    <th>Tên dịch vụ</th>
                     <th>Icon</th>
-                    <th>Action</th>
+                    <th>Tùy chọn</th>
                 </tr>
             </thead>
             <tbody>
@@ -94,8 +94,8 @@ if (isset($_GET['delete_id'])) {
                             <td>" . ($i + 1) . "</td>
                             <td>" . $service[$i]['name'] . "</td>" .
                         '<td><i class="' . $service[$i]['icon'] . '"></i></td>' .
-                        "<td><a href='/web-booking-hotel/admin/index.php?page=service&update_id=" . $service[$i]['id'] . "' class='btn-update'>Update</a>
-                        | <a href='/web-booking-hotel/admin/index.php?page=service&delete_id=" . $service[$i]['id'] . "' class='btn-delete'>Delete</a>
+                        "<td><a href='/web-booking-hotel/admin/index.php?page=service&update_id=" . $service[$i]['id'] . "' class='btn-update'>Chỉnh sửa</a>
+                        | <a href='/web-booking-hotel/admin/index.php?page=service&delete_id=" . $service[$i]['id'] . "' class='btn-delete'>Xóa</a>
                         </td>
                         </tr>";
                 }
