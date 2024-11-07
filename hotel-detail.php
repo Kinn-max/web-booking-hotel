@@ -26,13 +26,11 @@ if (isset($_POST['book'])) {
         if ($rowUser == null) {
             $notifyValue .= "- Bạn chưa đăng nhập.<br>";
         }
-        if($notifyValue == ""){
-            $sql_in = "INSERT INTO booking(id_user,id_room,check_in_date,check_out_date,create_at,total_price,booking_status) VALUES ('".$userId."', '".$roomId."', '".$checkInDate."', '".$checkOutDate."', '".$createAt."', '".$totalPriceFinal."','".$status."')";
+        if ($notifyValue == "") {
+            $sql_in = "INSERT INTO booking(id_user,id_room,check_in_date,check_out_date,create_at,total_price,booking_status) VALUES ('" . $userId . "', '" . $roomId . "', '" . $checkInDate . "', '" . $checkOutDate . "', '" . $createAt . "', '" . $totalPriceFinal . "','" . $status . "')";
             mysqli_query($mysqli, $sql_in);
             $notifyValue .= "- Đặt khách sạn thành công!";
         }
-        
-
     } else {
         echo "Thiếu thông tin cần thiết!";
     }
@@ -65,7 +63,7 @@ if ($r = $mysqli->query($query_service)) {
     }
 }
 
-$query_room = "SELECT * FROM `room` WHERE `id_hotel` = " . $data['id'];
+$query_room = "SELECT *, room.id AS room_id FROM room LEFT JOIN booking ON room.id = booking.id_room WHERE room.id_hotel = " . $data['id'] . " AND (booking.booking_status IS NULL OR booking.booking_status != 'Đang đặt')";
 $rooms = [];
 if ($r = $mysqli->query($query_room)) {
     while ($row = $r->fetch_assoc()) {
@@ -75,7 +73,7 @@ if ($r = $mysqli->query($query_room)) {
 
 $services_room = [];
 foreach ($rooms as $room) {
-    $query_service_room = "SELECT * FROM `service_room` INNER JOIN `service` ON `service_room`.`service_id` = `service`.`id` WHERE `room_id` = " . $room['id'];
+    $query_service_room = "SELECT * FROM `service_room` INNER JOIN `service` ON `service_room`.`service_id` = `service`.`id` WHERE `room_id` = " . $room['room_id'];
     if ($r = $mysqli->query($query_service_room)) {
         while ($row = $r->fetch_assoc()) {
             $services_room[$room['id']][] = $row;
@@ -115,85 +113,71 @@ foreach ($rooms as $room) {
                 </svg>
             </div>
             <?php
-                if($rowUser){
-                     echo 'Chào mừng, '. $rowUser['fullname'];
-                }else{
-                    echo'
+            if ($rowUser) {
+                echo 'Chào mừng, ' . $rowUser['fullname'];
+            } else {
+                echo '
                         <div class="header_btn">
                             <button class="header_btn-item">Đăng ký</button>
                             <button class="header_btn-item">Đăng nhập</button>
                         </div>
                     ';
-                }
-             ?>
-           
+            }
+            ?>
+
         </div>
         <div class="select_date">
+            <form action="search.php" method="GET">
             <div class="select_date_form">
                 <div class="header_input_form" style="flex: 2">
                     <i class="fa-solid fa-bed"></i>
                     <input
                         class="input_form"
                         type="text"
-                        placeholder="Bạn muốn đến đâu?" />
+                        name="destination"
+                        placeholder="Bạn muốn đến đâu?"
+                    />
                 </div>
                 <div class="header_input_form" style="flex: 1">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <input class="input_form" type="date" />
+                    <input class="input_form" type="date" name="date" />
                 </div>
                 <div class="header_input_form" style="flex: 1">
-                    <button class="header_dropdown_form">
+                    <button  type="button" class="header_dropdown_form">
                         <span>
                             <i class="fa-solid fa-bed icon-dropdown"></i>
-                            2 người lớn · 1 phòng
+                            <span class="number_of_bed">1</span> <!-- Hiển thị số giường -->
                         </span>
+                        <div class="connect_two-element"></div>
                         <span><i class="fa-solid fa-chevron-down"></i></span>
                     </button>
                     <div class="options">
                         <div class="input-adult df">
                             <div class="label-adult df">
-                                <label for="">Người lớn</label>
+                                <label for="">Giường</label>
                             </div>
                             <div class="select-adult">
-                                <button>-</button>
-                                <span>2</span>
-                                <button>+</button>
+                                <button type="button" onclick="updateValue('rooms', -1)">-</button>
+                                <span id="rooms_count">1</span>
+                                <input type="hidden" name="rooms" id="rooms" value="1">
+                                <button type="button" onclick="updateValue('rooms', 1)">+</button>
                             </div>
                         </div>
-                        <div class="input-adult df">
-                            <div class="label-adult df">
-                                <label for="">Trẻ em</label>
-                            </div>
-                            <div class="select-adult">
-                                <button>-</button>
-                                <span>2</span>
-                                <button>+</button>
-                            </div>
-                        </div>
-                        <div class="input-adult df">
-                            <div class="label-adult df">
-                                <label for="">Phòng</label>
-                            </div>
-                            <div class="select-adult">
-                                <button>-</button>
-                                <span>2</span>
-                                <button>+</button>
-                            </div>
-                        </div>
-                        <button class="confirm-option">Xong</button>
+                        <button type="button" class="confirm-option" onclick="closeOptions()">Xong</button>
                     </div>
                 </div>
-                <button class="header_btn_form">Tìm</button>
+                <button class="header_btn_form" type="submit">Tìm</button>
             </div>
+        </form>
         </div>
     </div>
     <!-- end header -->
 
     <!-- body -->
     <div class="notify_among">
-            <span class="text-notify_among"></span>
-            <div class="control_notify"></div>
-        </div>
+        <span class="text-notify_among"></span>
+        <div class="control_notify"></div>
+    </div>
     <div class="container">
         <div class="row mt-4 df">
             <div class="header_detail">
@@ -303,7 +287,7 @@ foreach ($rooms as $room) {
                 <div class="price-room">
                     <span>' . $rooms[$i]['price'] . '<small>/ 1 đêm</small></span>
                     
-                    <button id="showDetail' . $i . '" class="showDetailBtn" onclick="showModel( \'' . addslashes($rooms[$i]['id']) . '\',\'' . $rooms[$i]['image'] . '\', \'' . addslashes($rooms[$i]['name']) . '\', \'' . addslashes($rooms[$i]['description']).'\', \'' . addslashes($rooms[$i]['price']) . '\')">Chọn phòng</button>
+                    <button id="showDetail' . $i . '" class="showDetailBtn" onclick="showModel( \'' . addslashes($rooms[$i]['id']) . '\',\'' . $rooms[$i]['image'] . '\', \'' . addslashes($rooms[$i]['name']) . '\', \'' . addslashes($rooms[$i]['description']) . '\', \'' . addslashes($rooms[$i]['price']) . '\')">Chọn phòng</button>
                             
                         </div>
                     </div>
@@ -326,7 +310,7 @@ foreach ($rooms as $room) {
                     <p class="mt-8">
                         <i class="fa-solid fa-bed"></i>
                         <span id="modalDescription"></span>
-                        <div id="price-model" style="font-size: 2.4rem;color : #c0392b; margin: 5px 0"></div>
+                    <div id="price-model" style="font-size: 2.4rem;color : #c0392b; margin: 5px 0"></div>
                     </p>
                     <div class="form-model">
                         <form action="" method="post">
@@ -334,7 +318,7 @@ foreach ($rooms as $room) {
                                 <label for="checkInDate" class="font-label">Ngày nhận phòng:</label>
                                 <input type="date" id="checkInDate" name="checkInDate">
                                 <label for="checkOutDate" class="font-label">Ngày trả phòng:</label>
-                                <input type="date" id="checkOutDate" name="checkOutDate"> 
+                                <input type="date" id="checkOutDate" name="checkOutDate">
                                 <br>
                             </div>
                             <div>
@@ -351,9 +335,9 @@ foreach ($rooms as $room) {
                                     </span>
                                     <br>
                                     <div class="price-room">
-                                    <button type="submit" name="book" value="book" class="showDetailBtn" style="width:120px">
-                                        Đặt ngay
-                                    </button>
+                                        <button type="submit" name="book" value="book" class="showDetailBtn" style="width:120px">
+                                            Đặt ngay
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -361,11 +345,11 @@ foreach ($rooms as $room) {
                     </div>
                 </div>
             </div>
-    
+
         </div>
 
     </div>
-    
+
     </div>
     <!-- end body -->
     <!-- footer -->
@@ -449,98 +433,100 @@ foreach ($rooms as $room) {
         </div>
     </div>
     <!-- end -->
-     <script>
-       function showModel(id, image, name, description, price) {
-        document.getElementById("modalImage").src = './images/rooms/' + image;
-        document.getElementById("modalName").innerText = name;
-        document.getElementById("modalDescription").innerText = description;
-        document.getElementById("price-model").innerText = price + " đ";
-        document.getElementById("roomId").value = id;
-        let priceStr = price.replace(/,/g, ""); 
-        let pricefinal = parseFloat(priceStr);
-        document.getElementById("totalPrice").value = pricefinal;
+    <script src="js/search.js"></script>
+    <script>
+        function showModel(id, image, name, description, price) {
+            document.getElementById("modalImage").src = './images/rooms/' + image;
+            document.getElementById("modalName").innerText = name;
+            document.getElementById("modalDescription").innerText = description;
+            document.getElementById("price-model").innerText = price + " đ";
+            document.getElementById("roomId").value = id;
+            let priceStr = price.replace(/,/g, "");
+            let pricefinal = parseFloat(priceStr);
+            document.getElementById("totalPrice").value = pricefinal;
 
-        document.getElementById("roomModal").style.display = "block";
-    }
+            document.getElementById("roomModal").style.display = "block";
+        }
 
-    function closeModal() {
-        document.getElementById("roomModal").style.display = "none";
-    }
+        function closeModal() {
+            document.getElementById("roomModal").style.display = "none";
+        }
 
-    document.getElementById('checkInDate').addEventListener('change', calculateDays);
-    document.getElementById('checkOutDate').addEventListener('change', calculateDays);
-    const numberOfDate = document.getElementById("numberOfDate");
-    const totalPriceText = document.getElementById("totalPriceText");
+        document.getElementById('checkInDate').addEventListener('change', calculateDays);
+        document.getElementById('checkOutDate').addEventListener('change', calculateDays);
+        const numberOfDate = document.getElementById("numberOfDate");
+        const totalPriceText = document.getElementById("totalPriceText");
 
-    function calculateDays() {
-        var today = new Date();
-        today.setHours(0, 0, 0, 0);
+        function calculateDays() {
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-        var checkInDate = new Date(document.getElementById('checkInDate').value);
-        var checkOutDate = new Date(document.getElementById('checkOutDate').value);
-        var valuetotal = document.getElementById("totalPrice").value;
+            var checkInDate = new Date(document.getElementById('checkInDate').value);
+            var checkOutDate = new Date(document.getElementById('checkOutDate').value);
+            var valuetotal = document.getElementById("totalPrice").value;
 
-        if (checkInDate && checkOutDate) {
-            if (checkInDate >= today) {
-                if (checkOutDate > checkInDate) { 
-                    var timeDifference = checkOutDate - checkInDate;
-                    var dayDifference = Math.ceil(timeDifference / (1000 * 3600 * 24)); 
+            if (checkInDate && checkOutDate) {
+                if (checkInDate >= today) {
+                    if (checkOutDate > checkInDate) {
+                        var timeDifference = checkOutDate - checkInDate;
+                        var dayDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-                    document.getElementById('result').innerHTML = "Số ngày: " + dayDifference + " ngày";
-                    numberOfDate.innerHTML = dayDifference + " đêm";
+                        document.getElementById('result').innerHTML = "Số ngày: " + dayDifference + " ngày";
+                        numberOfDate.innerHTML = dayDifference + " đêm";
 
-                    var totalPrice = valuetotal * dayDifference;
-                    document.getElementById("totalPriceFinal").value = totalPrice;
-                    totalPriceText.innerHTML = totalPrice + " đ"; 
+                        var totalPrice = valuetotal * dayDifference;
+                        document.getElementById("totalPriceFinal").value = totalPrice;
+                        totalPriceText.innerHTML = totalPrice + " đ";
+                    } else {
+                        document.getElementById('result').innerHTML = "Ngày trả phòng phải sau ngày nhận phòng!";
+                        numberOfDate.innerHTML = "";
+                        totalPriceText.innerHTML = "";
+                    }
                 } else {
-                    document.getElementById('result').innerHTML = "Ngày trả phòng phải sau ngày nhận phòng!";
+                    document.getElementById('result').innerHTML = "Ngày nhận phòng phải từ hôm nay trở đi!";
                     numberOfDate.innerHTML = "";
-                    totalPriceText.innerHTML = ""; 
+                    totalPriceText.innerHTML = "";
                 }
             } else {
-                document.getElementById('result').innerHTML = "Ngày nhận phòng phải từ hôm nay trở đi!";
+                document.getElementById('result').innerHTML = "";
                 numberOfDate.innerHTML = "";
-                totalPriceText.innerHTML = ""; 
-            }
-        } else {
-            document.getElementById('result').innerHTML = "";
-            numberOfDate.innerHTML = "";
-            totalPriceText.innerHTML = ""; 
-        }
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-        function updateNotification() {
-            var notifyAmongValue = "<?php echo $notifyValue ?>"
-            const notifyAmong = document.querySelector(".notify_among");
-            var textNotifyAmong = document.querySelector(".text-notify_among");
-            var progressBar = document.querySelector(".control_notify"  );
-
-            if(notifyAmongValue.length > 0) {
-
-                notifyAmong.classList.add("active-show");
-                textNotifyAmong.innerHTML = notifyAmongValue; 
-                setTimeout(function (){
-                hideNotification()
-                 }, 3000);
-                var width = progressBar.clientWidth;
-                var widthDele = width / 200; 
-                var interval = setInterval(function() {
-                    if (width <= 0) {
-                        clearInterval(interval); 
-                    } else {
-                        width -= widthDele; 
-                        progressBar.style.width = width + "px"; 
-                    }
-                }, 20); 
+                totalPriceText.innerHTML = "";
             }
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            function updateNotification() {
+                var notifyAmongValue = "<?php echo $notifyValue ?>"
+                const notifyAmong = document.querySelector(".notify_among");
+                var textNotifyAmong = document.querySelector(".text-notify_among");
+                var progressBar = document.querySelector(".control_notify");
+
+                if (notifyAmongValue.length > 0) {
+
+                    notifyAmong.classList.add("active-show");
+                    textNotifyAmong.innerHTML = notifyAmongValue;
+                    setTimeout(function() {
+                        hideNotification()
+                    }, 3000);
+                    var width = progressBar.clientWidth;
+                    var widthDele = width / 200;
+                    var interval = setInterval(function() {
+                        if (width <= 0) {
+                            clearInterval(interval);
+                        } else {
+                            width -= widthDele;
+                            progressBar.style.width = width + "px";
+                        }
+                    }, 20);
+                }
+            }
+
             function hideNotification() {
-            const notifyAmong = document.querySelector(".notify_among");
-            notifyAmong.classList.remove("active-show");
-        }
-        updateNotification();
-    });
-     </script>
+                const notifyAmong = document.querySelector(".notify_among");
+                notifyAmong.classList.remove("active-show");
+            }
+            updateNotification();
+        });
+    </script>
 </body>
 
 </html>

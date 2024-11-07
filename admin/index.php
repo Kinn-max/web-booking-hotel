@@ -1,14 +1,51 @@
 <?php
+include("../config/connect.php");
+
 session_start();
 if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì quay lại trang login
     header('location:../auth/login.php');
 }
 ?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/e9ee262283.js" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <?php
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+        switch ($page) {
+            case 'service':
+                echo '<link rel="stylesheet" href="css/service.css">';
+                echo '
+                    <!-- IconPicker CSS -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/css/fontawesome-iconpicker.min.css">
+                    <!-- FontAwesome IconPicker JS -->
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/fontawesome-iconpicker/3.2.0/js/fontawesome-iconpicker.min.js"></script>';
+                break;
+            case 'room':
+                echo '<link rel="stylesheet" href="css/room.css">';
+                echo '<script src="https://bsite.net/savrajdutta/cdn/multi-select.js"></script>';
+                break;
+            case 'city':
+                echo '<link rel="stylesheet" href="css/city.css">';
+                break;
+            case 'hotel':
+                echo '<link rel="stylesheet" href="css/city.css">';
+                break;
+            case 'user':
+                echo '<link rel="stylesheet" href="css/user.css">';
+                break;
+            case "booking":
+                echo '<link rel="stylesheet" href="css/service.css">';
+                break;
+        }
+    }
+    ?>
     <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/city.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" type="text/css" href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css}" />
     <title>Admin</title>
@@ -62,12 +99,51 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
                     </li>
                 </a>
                 <!--  -->
-                <a href="?page=booking"  class="text-category">
+                <a href="?page=booking" class="text-category">
                     <li class="category_list-item menu_ts">
                         <div class="show_category-both">
                             <div class="both_icon">
                                 <i class="fa-solid fa-layer-group"></i>
                                 <p>Các đơn hàng đã đặt</p>
+                            </div>
+                            <div class="round-round">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                <a href="?page=service" class="text-category">
+                    <li class="category_list-item menu_ts">
+                        <div class="show_category-both">
+                            <div class="both_icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <p>Thêm dịch vụ</p>
+                            </div>
+                            <div class="round-round">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                <a href="?page=room" class="text-category">
+                    <li class="category_list-item menu_ts">
+                        <div class="show_category-both">
+                            <div class="both_icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <p>Thêm phòng</p>
+                            </div>
+                            <div class="round-round">
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </li>
+                </a>
+                <a href="?page=user" class="text-category">
+                    <li class="category_list-item menu_ts">
+                        <div class="show_category-both">
+                            <div class="both_icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <p>Người dùng</p>
                             </div>
                             <div class="round-round">
                                 <i class="fa-solid fa-chevron-down"></i>
@@ -92,9 +168,36 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
                 case 'booking':
                     include 'pages/booking.php';
                     break;
+
+                case 'service':
+                    include 'pages/service.php';
+                    break;
+
+                case 'room':
+                    include 'pages/room.php';
+                    break;
+
+                case 'user':
+                    include 'pages/user.php';
+                    break;
             }
         }
         ?>
     </div>
 
+    <script>
+        <?php
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+            switch ($page) {
+                case 'service':
+                    include 'js/service.js';
+                    break;
+                case 'room':
+                    include 'js/room.js';
+                    break;
+            }
+        }
+        ?>
+    </script>
 </body>
