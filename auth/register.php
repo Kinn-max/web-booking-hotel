@@ -10,15 +10,12 @@ if (isset($_POST['register'])) {
     $phone = $_POST['phone'];
     $role = "user";
 
-    // Kiểm tra xem email hoặc số điện thoại đã tồn tại chưa
     $checkUserQuery = "SELECT * FROM user WHERE email = '$email' OR phone = '$phone'";
     $result = mysqli_query($mysqli, $checkUserQuery);
 
     if (mysqli_num_rows($result) > 0) {
-        // Nếu email hoặc số điện thoại đã tồn tại
         echo "Email hoặc số điện thoại đã được sử dụng!";
     } else {
-        // Nếu không trùng, thêm người dùng vào cơ sở dữ liệu
         $sql = "INSERT INTO user(id, fullname, password, email, phone, role) 
                 VALUES ('$id', '$fullname', '$password', '$email', '$phone', '$role')";
 
@@ -26,7 +23,7 @@ if (isset($_POST['register'])) {
 
         $_SESSION['userEmail'] = $email;
 
-        header('location: ../user.php');
+        header('location: ../index.php');
     }
 }
 ?>
@@ -59,13 +56,14 @@ if (isset($_POST['register'])) {
 
         <div class="input-group">
             <label for="password">Mật khẩu</label>
-            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" required>
+            <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" onblur="validatePassword()" required>
+            <div id="error-message" style="color: red; display: none;"></div>
         </div>
 
         <div class="input-group">
             <label for="confirmPassword">Nhập lại mật khẩu</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-            <span id="errorMessage" class="error">Mật khẩu không khớp!</span>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" onblur="validateConfirmPassword()" required>
+            <div id="errorMessage" class="error"></div>
         </div>
 
         <div class="input-group">
@@ -86,20 +84,55 @@ if (isset($_POST['register'])) {
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
     const errorMessage = document.getElementById('errorMessage');
-    // const email = document.getElementById('email');
-    // const phone = document.getElementById('phone');
-    // const errorMessage_Email = document.getElementById('errorMessage_Email');
-    // const errorMessage_Phone = document.getElementById('errorMessage_Phone');
 
     form.addEventListener('submit', function(event) {
         if (password.value !== confirmPassword.value) {
-            event.preventDefault(); // Ngăn không cho form submit
-            errorMessage.style.display = 'inline'; // Hiển thị thông báo lỗi
+            event.preventDefault();
+            errorMessage.style.display = 'inline';
         }
         else {
-            errorMessage.style.display = 'none'; // Ẩn thông báo lỗi nếu khớp
+            errorMessage.style.display = 'none';
+        }
+    });
+
+    function validatePassword() {
+        var password = document.getElementById("password").value;
+        var errorMessage = document.getElementById("error-message");
+
+        var error = "";
+        if (!/[A-Z]/.test(password)) {
+            error = "Mật khẩu phải có ít nhất một chữ cái viết hoa!";
+        } else if (!/[a-z]/.test(password)) {
+            error = "Mật khẩu phải có ít nhất một chữ cái viết thường!";
+        } else if (!/[0-9]/.test(password)) {
+            error = "Mật khẩu phải có ít nhất một chữ số!";
+        } else if (!/[\W_]/.test(password)) {
+            error = "Mật khẩu phải có ít nhất một ký tự đặc biệt!";
+        } else if (password.length < 8) {
+            error = "Mật khẩu phải có ít nhất 8 ký tự!";
         }
 
-    });
+        if (error) {
+            errorMessage.innerHTML = error;
+            errorMessage.style.display = "block";
+            return false;
+        } else {
+            errorMessage.style.display = "none";
+            return true;
+        }
+    }
+
+    function validateConfirmPassword() {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        var confirmPasswordErrorMessage = document.getElementById("errorMessage");
+
+        if (password !== confirmPassword) {
+            confirmPasswordErrorMessage.innerHTML = "Mật khẩu nhập lại không khớp!";
+            confirmPasswordErrorMessage.style.display = "block";
+        } else {
+            confirmPasswordErrorMessage.style.display = "none";
+        }
+    }
 </script>
 </body>
