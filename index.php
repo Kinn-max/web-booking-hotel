@@ -1,17 +1,23 @@
 <?php
-include('config/connect.php'); //Kết nối database
+include('config/connect.php');
 session_start();
-if(isset($_SESSION['userrEmail'])){
-    header('location: user.php');
+if(isset($_SESSION['userEmail'])){
+    $loggedIn = true;
+    $email = $_SESSION['userEmail'];
+    $user = "SELECT * FROM user WHERE email = '$email'";
+    $userName = $mysqli->query($user);
+    $rowUser = $userName->fetch_assoc();
+} else {
+    $loggedIn = false;
 }
 
-//truy vấn dữ liệu
 $city = "SELECT city.id, city.name, city.image, COUNT(hotel.id) AS total_hotels
         FROM city LEFT JOIN hotel ON city.id = hotel.id_city GROUP BY city.id, city.name, city.image";
 $cityData = $mysqli->query($city);
 
 $hotel = "SELECT * FROM hotel";
 $hotelData = $mysqli->query($hotel);
+
 ?>
 
 
@@ -41,53 +47,87 @@ $hotelData = $mysqli->query($hotel);
                 </svg>
             </div>
             <div class="header_btn">
-                <a href="auth/register.php"><button class="header_btn-item">Đăng ký</button></a>
-                <a href="auth/login.php"><button class="header_btn-item">Đăng nhập</button></a>
+                <?php if ($loggedIn): ?>
+                    <div class="navbar" onclick="toggleDropdown()">
+                        <div class="user-info">
+                            <span class="user-name"> Chào mừng, <?php echo $rowUser['fullname']?> </span>
+                            <span class="user-status"></span>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=profile">
+                                    <span class="icon">👤</span> Thông tin cá nhân
+                                </a>
+                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=book-history">
+                                    <span class="icon">💼</span> Lịch sử chuyến đi
+                                </a>
+                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=change-password">
+                                    <span class="icon">🔐</span> Đổi mật khẩu
+                                </a>
+                                <a href="auth/logout.php">
+                                    <span class="icon">🚪</span> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <a href="auth/register.php"><button class="header_btn-item">Đăng ký</button></a>
+                    <a href="auth/login.php"><button class="header_btn-item">Đăng nhập</button></a>
+                <?php endif; ?>
             </div>
         </div>
         <div class="select_date">
-            <form action="search.php" method="GET">
             <div class="select_date_form">
                 <div class="header_input_form" style="flex: 2">
                     <i class="fa-solid fa-bed"></i>
-                    <input
-                        class="input_form"
-                        type="text"
-                        name="destination"
-                        placeholder="Bạn muốn đến đâu?"
-                    />
+                    <input class="input_form" type="text" placeholder="Bạn muốn đến đâu?" />
                 </div>
                 <div class="header_input_form" style="flex: 1">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <input class="input_form" type="date" name="date" />
+                    <input class="input_form" type="date" />
                 </div>
                 <div class="header_input_form" style="flex: 1">
-                    <button  type="button" class="header_dropdown_form">
+                    <button class="header_dropdown_form">
                         <span>
                             <i class="fa-solid fa-bed icon-dropdown"></i>
-                            <span class="number_of_bed">1</span> <!-- Hiển thị số giường -->
+                            2 người lớn · 1 phòng
                         </span>
-                        <div class="connect_two-element"></div>
                         <span><i class="fa-solid fa-chevron-down"></i></span>
                     </button>
                     <div class="options">
                         <div class="input-adult df">
                             <div class="label-adult df">
-                                <label for="">Giường</label>
+                                <label for="">Người lớn</label>
                             </div>
                             <div class="select-adult">
-                                <button type="button" onclick="updateValue('rooms', -1)">-</button>
-                                <span id="rooms_count">1</span>
-                                <input type="hidden" name="rooms" id="rooms" value="1">
-                                <button type="button" onclick="updateValue('rooms', 1)">+</button>
+                                <button>-</button>
+                                <span>2</span>
+                                <button>+</button>
                             </div>
                         </div>
-                        <button type="button" class="confirm-option" onclick="closeOptions()">Xong</button>
+                        <div class="input-adult df">
+                            <div class="label-adult df">
+                                <label for="">Trẻ em</label>
+                            </div>
+                            <div class="select-adult">
+                                <button>-</button>
+                                <span>2</span>
+                                <button>+</button>
+                            </div>
+                        </div>
+                        <div class="input-adult df">
+                            <div class="label-adult df">
+                                <label for="">Phòng</label>
+                            </div>
+                            <div class="select-adult">
+                                <button>-</button>
+                                <span>2</span>
+                                <button>+</button>
+                            </div>
+                        </div>
+                        <button class="confirm-option">Xong</button>
                     </div>
                 </div>
-                <button class="header_btn_form" type="submit">Tìm</button>
+                <button class="header_btn_form">Tìm</button>
             </div>
-            </form>
         </div>
     </div>
     <!-- body -->
@@ -105,7 +145,7 @@ $hotelData = $mysqli->query($hotel);
                     <?php while ($rowCity = $cityData->fetch_assoc()) { ?>
                         <div class="carousel-item">
                             <a href="#">
-                                <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>" />
+                                <img src="<?php echo "./images/kham-pha-vn/" . $rowCity['image'] ?>" />
                                 <h3> <?php echo $rowCity['name'] ?></h3>
                                 <p><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></p>
                             </a>
@@ -123,9 +163,6 @@ $hotelData = $mysqli->query($hotel);
                 <p>Tiết kiệm cho chỗ nghỉ từ ngày 4 tháng 10 - ngày 6 tháng 10</p>
             </div>
             <div class="offers-wrapper">
-                <!-- <button class="nav-button left" onclick="scrolloffers(1)">
-            &#8249;
-          </button> -->
                 <div class="offers" id="offers">
                     <div class="hotel">
                         <img src="./images/discount-weekend/indochine.jpg" alt="Indochine Hotel SG" />
@@ -200,9 +237,6 @@ $hotelData = $mysqli->query($hotel);
                         </div>
                     </div>
                 </div>
-                <!-- <button class="nav-button right" onclick="scrolloffers(1)">
-            &#8250;
-          </button> -->
             </div>
         </div>
     </div>
@@ -286,7 +320,6 @@ $hotelData = $mysqli->query($hotel);
             <a href=""><i class="fa-brands fa-linkedin"></i></a>
         </div>
     </div>
-    <script src="js/search.js"></script>
     <script>
         function scrollCarousel(direction) {
             const carousel = document.getElementById("carousel");
@@ -299,11 +332,16 @@ $hotelData = $mysqli->query($hotel);
 
         function scrolloffers(direction) {
             const carousel = document.getElementById("offers");
-            const scrollAmount = 200; // Adjust the scroll distance
+            const scrollAmount = 200;
             carousel.scrollBy({
                 left: direction * scrollAmount,
                 behavior: "smooth",
             });
+        }
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('active');
         }
     </script>
 </body>

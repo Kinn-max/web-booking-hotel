@@ -8,7 +8,6 @@ $city = "SELECT * FROM city WHERE id = '$this_id'";
 $cityData = $mysqli->query($city);
 
 $cityRow = $cityData->fetch_assoc();
-//khi nhấn nút Cập Nhật
 if (isset($_POST['update'])) {
     $name = $_POST['name'];
 

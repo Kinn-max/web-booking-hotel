@@ -4,19 +4,16 @@ include('../config/connect.php');
 session_start();
 
 if (isset($_SESSION['userEmail'])) {
-    header('location:../user.php');
+    header('location:../index.php');
 }
-//else if(isset($_SESSION['admin'])){
-//    header('location:../admin/index.php');
-//}
 
-$message = ""; // Biến để chứa thông báo
+$message = "";
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM user WHERE email = ? LIMIT 1"; // Sử dụng câu lệnh SELECT với điều kiện để tìm người dùng
+    $sql = "SELECT * FROM user WHERE email = ? LIMIT 1";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -24,14 +21,14 @@ if (isset($_POST['login'])) {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        if ($user['password'] == $password) { // Kiểm tra mật khẩu
+        if ($user['password'] == $password) {
             echo $user['role'];
             if ($user['role'] == "admin") {
                 $_SESSION['admin'] = $email;
                 header('location: ../admin/index.php');
             } else {
-                $_SESSION['userEmail'] = $email; // Tạo session nếu đăng nhập thành công
-                header('location: ../user.php');
+                $_SESSION['userEmail'] = $email;
+                header('location: ../index.php');
             }
         } else {
             $message = "Tài khoản hoặc mật khẩu sai!";
