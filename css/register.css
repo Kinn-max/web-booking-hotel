@@ -39,6 +39,7 @@ body {
 
 .input-group {
     margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .input-group label {
@@ -86,9 +87,15 @@ button:hover {
         padding: 0.65rem;
     }
 }
-
-
 .error {
     color: red;
     display: none;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
 }

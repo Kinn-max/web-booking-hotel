@@ -79,15 +79,15 @@
 
         var error = "";
         if (!/[A-Z]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một chữ cái viết hoa!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (!/[a-z]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một chữ cái viết thường!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (!/[0-9]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một chữ số!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (!/[\W_]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một ký tự đặc biệt!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (password.length < 8) {
-            error = "Mật khẩu phải có ít nhất 8 ký tự!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         }
 
         if (error) {

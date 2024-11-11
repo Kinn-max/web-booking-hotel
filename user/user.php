@@ -44,14 +44,22 @@ if (isset($_POST['change_password'])) {
     $newPassword = $_POST['new_password'];
     $confirmPassword = $_POST['confirm_password'];
 
+    if ($newPassword !== $confirmPassword) {
+        $_SESSION['error_message'] = "Mật khẩu mới không khớp!";
+        header("Location: user.php?id=$this_id&&page=change-password");
+        exit();
+    }
+
     $query = "SELECT password FROM user WHERE id = '$this_id'";
     $result = mysqli_query($mysqli, $query);
     $row_password = $result->fetch_assoc();
 
-    if ($row_password['password'] != $currentPassword) {
+    if (!password_verify($currentPassword, $row_password['password'])) {
         $_SESSION['check_message'] = "Mật khẩu sai!";
     } else {
-        $updateQuery = "UPDATE user SET password = '$newPassword' WHERE id = '$this_id'";
+        $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+
+        $updateQuery = "UPDATE user SET password = '$hashedNewPassword' WHERE id = '$this_id'";
         $result_password = mysqli_query($mysqli, $updateQuery);
 
         if ($result_password) {
@@ -63,6 +71,7 @@ if (isset($_POST['change_password'])) {
     header("Location: user.php?id=$this_id&&page=change-password");
     exit();
 }
+
 
 $query_booking = "SELECT 
     booking.id AS booking_id,
@@ -102,8 +111,6 @@ if ($stmt_booking) {
     $result_booking = $stmt_booking->get_result();
 
     if ($result_booking->num_rows > 0) {
-    } else {
-        echo "Không có chuyến đi nào cho người dùng này.";
     }
 
     $stmt_booking->close();

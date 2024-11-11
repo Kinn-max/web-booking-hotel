@@ -10,6 +10,8 @@ if (isset($_POST['register'])) {
     $phone = $_POST['phone'];
     $role = "user";
 
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     $checkUserQuery = "SELECT * FROM user WHERE email = '$email' OR phone = '$phone'";
     $result = mysqli_query($mysqli, $checkUserQuery);
 
@@ -17,7 +19,7 @@ if (isset($_POST['register'])) {
         echo "Email hoặc số điện thoại đã được sử dụng!";
     } else {
         $sql = "INSERT INTO user(id, fullname, password, email, phone, role) 
-                VALUES ('$id', '$fullname', '$password', '$email', '$phone', '$role')";
+                VALUES ('$id', '$fullname', '$hashedPassword', '$email', '$phone', '$role')";
 
         mysqli_query($mysqli, $sql);
 
@@ -28,10 +30,12 @@ if (isset($_POST['register'])) {
 }
 ?>
 
+
 <head>
     <title>Đăng ký</title>
     <link rel="stylesheet" href="../css/register.css">
     <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="header_main">
@@ -57,12 +61,14 @@ if (isset($_POST['register'])) {
         <div class="input-group">
             <label for="password">Mật khẩu</label>
             <input type="password" id="password" name="password" placeholder="Nhập mật khẩu" onblur="validatePassword()" required>
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('password', this)"></i>
             <div id="error-message" style="color: red; display: none;"></div>
         </div>
 
         <div class="input-group">
             <label for="confirmPassword">Nhập lại mật khẩu</label>
             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" onblur="validateConfirmPassword()" required>
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('confirmPassword', this)"></i>
             <div id="errorMessage" class="error"></div>
         </div>
 
@@ -101,15 +107,15 @@ if (isset($_POST['register'])) {
 
         var error = "";
         if (!/[A-Z]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một chữ cái viết hoa!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (!/[a-z]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một chữ cái viết thường!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (!/[0-9]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một chữ số!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (!/[\W_]/.test(password)) {
-            error = "Mật khẩu phải có ít nhất một ký tự đặc biệt!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         } else if (password.length < 8) {
-            error = "Mật khẩu phải có ít nhất 8 ký tự!";
+            error = "Mật khẩu phải bao gồm chữ cái viết hoa, ký tự đặc biệt, số, ít nhất 8 ký tự";
         }
 
         if (error) {
@@ -134,5 +140,16 @@ if (isset($_POST['register'])) {
             confirmPasswordErrorMessage.style.display = "none";
         }
     }
+    function togglePassword(fieldId, icon) {
+        var passwordField = document.getElementById(fieldId);
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+    }
+
 </script>
 </body>

@@ -21,8 +21,7 @@ if (isset($_POST['login'])) {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        if ($user['password'] == $password) {
-            echo $user['role'];
+        if (password_verify($password, $user['password'])) {
             if ($user['role'] == "admin") {
                 $_SESSION['admin'] = $email;
                 header('location: ../admin/index.php');

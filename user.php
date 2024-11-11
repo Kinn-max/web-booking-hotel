@@ -1,22 +1,43 @@
 <?php
-include('config/connect.php'); //Kết nối database
+include('config/connect.php');
 session_start();
-if (!isset($_SESSION['userEmail'])) { //nếu session username k tồn tại thì quay lại trang login
-    header('location:./auth/login.php');
+if(isset($_SESSION['userEmail'])){
+    $loggedIn = true;
+    $email = $_SESSION['userEmail'];
+    $userQuery = "SELECT * FROM user WHERE email = '$email'";
+    $userData = $mysqli->query($userQuery);
+    $userInfo = $userData->fetch_assoc();
+} else {
+    $loggedIn = false;
+    header("Location: index.php");
+    exit();
 }
 
-//truy vấn dữ liệu
-$city = "SELECT city.id, city.name, city.image, COUNT(hotel.id) AS total_hotels
-        FROM city LEFT JOIN hotel ON city.id = hotel.id_city GROUP BY city.id, city.name, city.image";
-$cityData = $mysqli->query($city);
+$this_id = $_GET['id'];
 
-$hotel = "SELECT * FROM hotel";
-$hotelData = $mysqli->query($hotel);
+if(isset($_POST['update'])) {
+    $fullname = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $birthday = $_POST['birthday'];
+    $sex = $_POST['gender'];
+    $address = $_POST['address'];
 
-$email = $_SESSION['userEmail'];
-$user = "SELECT * FROM user WHERE email = '$email'";
-$userName = $mysqli->query($user);
-$rowUser = $userName->fetch_assoc();
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['error_message'] = "Địa chỉ email không hợp lệ. Vui lòng nhập lại.";
+    } else {
+        $sql = "UPDATE user SET fullname = '$fullname' , email = '$email', phone = '$phone', birthday = '$birthday', sex = '$sex', address = '$address'
+                WHERE user.id = " . $this_id;
+
+        if (mysqli_query($mysqli, $sql)) {
+            $_SESSION['success_message'] = "Cập nhật thông tin thành công!";
+        } else {
+            $_SESSION['error_message'] = "Có lỗi xảy ra. Vui lòng thử lại.";
+        }
+        header('location: user.php?id=' . $this_id);
+        exit();
+    }
+}
 ?>
 
 
@@ -24,19 +45,19 @@ $rowUser = $userName->fetch_assoc();
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Booking Interface</title>
+    <title>Trang cá nhân</title>
     <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/user.css" />
     <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/footer.css" />
     <script src="https://kit.fontawesome.com/e9ee262283.js" crossorigin="anonymous"></script>
 
 </head>
 
 <body>
-<!-- head -->
+<!--header-->
 <div class="header_main">
     <div class="header">
         <div class="header_logo">
@@ -46,207 +67,111 @@ $rowUser = $userName->fetch_assoc();
                 </path>
             </svg>
         </div>
-        <div class="navbar" onclick="toggleDropdown()">
-            <div class="user-info">
-                <span class="user-name"> Chào mừng, <?php echo $rowUser['fullname']?> </span>
-                <span class="user-status"></span>
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <a href="#">
-                        <span class="icon">👤</span> Quản lý tài khoản
-                    </a>
-                    <a href="#">
-                        <span class="icon">🎁</span> Đặt chỗ & Chuyến đi
-                    </a>
-                    <a href="#">
-                        <span class="icon">💼</span> Chương trình khách hàng thân thiết Genius
-                    </a>
-                    <a href="#">
-                        <span class="icon">💳</span> Tặng thưởng & Ví
-                    </a>
-                    <a href="#">
-                        <span class="icon">⭐</span> Đánh giá
-                    </a>
-                    <a href="#">
-                        <span class="icon">🔖</span> Đã lưu
-                    </a>
-                    <a href="auth/logout.php">
-                        <span class="icon">🚪</span> Đăng xuất
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="select_date">
-        <div class="select_date_form">
-            <div class="header_input_form" style="flex: 2">
-                <i class="fa-solid fa-bed"></i>
-                <input class="input_form" type="text" placeholder="Bạn muốn đến đâu?" />
-            </div>
-            <div class="header_input_form" style="flex: 1">
-                <i class="fa-solid fa-calendar-days"></i>
-                <input class="input_form" type="date" />
-            </div>
-            <div class="header_input_form" style="flex: 1">
-                <button class="header_dropdown_form">
-                        <span>
-                            <i class="fa-solid fa-bed icon-dropdown"></i>
-                            2 người lớn · 1 phòng
-                        </span>
-                    <span><i class="fa-solid fa-chevron-down"></i></span>
-                </button>
-                <div class="options">
-                    <div class="input-adult df">
-                        <div class="label-adult df">
-                            <label for="">Người lớn</label>
-                        </div>
-                        <div class="select-adult">
-                            <button>-</button>
-                            <span>2</span>
-                            <button>+</button>
-                        </div>
-                    </div>
-                    <div class="input-adult df">
-                        <div class="label-adult df">
-                            <label for="">Trẻ em</label>
-                        </div>
-                        <div class="select-adult">
-                            <button>-</button>
-                            <span>2</span>
-                            <button>+</button>
-                        </div>
-                    </div>
-                    <div class="input-adult df">
-                        <div class="label-adult df">
-                            <label for="">Phòng</label>
-                        </div>
-                        <div class="select-adult">
-                            <button>-</button>
-                            <span>2</span>
-                            <button>+</button>
-                        </div>
-                    </div>
-                    <button class="confirm-option">Xong</button>
-                </div>
-            </div>
-            <button class="header_btn_form">Tìm</button>
-        </div>
     </div>
 </div>
-<!-- body -->
-<div class="container">
-    <div class="section">
-        <div>
-            <h2>Khám Phá Việt Nam</h2>
-            <p>Các điểm đến phổ biến này có nhiều điều chờ đón bạn</p>
-        </div>
-        <div class="carousel-container">
-            <button class="nav-button left" onclick="scrollCarousel(-1)">
-                &#8249;
-            </button>
-            <div class="carousel" id="carousel">
-                <?php while ($rowCity = $cityData->fetch_assoc()) { ?>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="<?php echo "./images/kham-pha-vn/" . $rowCity['image'] ?>" />
-                            <h3> <?php echo $rowCity['name'] ?></h3>
-                            <p><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></p>
-                        </a>
-                    </div>
-                <?php } ?>
-            </div>
-            <button class="nav-button right" onclick="scrollCarousel(1)">
-                &#8250;
-            </button>
-        </div>
+<!--body-->
+<!-- Sidebar -->
+<div class="main">
+    <div class="sidebar">
+        <ul>
+            <li><a href="user.php?id=<?php echo $this_id?>" onclick="showSection('personal-info')"><span class="icon">👤</span>Thông tin cá nhân</a></li>
+            <li><a href="#" onclick=showSection('trips')><span class="icon">💼</span>Chuyến đi</a></li>
+            <li><a href="#" onclick="showSection('change-password')"><span class="icon">🔒</span>Đổi mật khẩu</a></li>
+            <li><a href="auth/logout.php"><span class="icon">🚪</span>Đăng xuất</a></li>
+        </ul>
     </div>
-    <div class="section" align="center">
-        <div class="heading">
-            <h2>Ưu đãi cho cuối tuần</h2>
-            <p>Tiết kiệm cho chỗ nghỉ từ ngày 4 tháng 10 - ngày 6 tháng 10</p>
-        </div>
-        <div class="offers-wrapper">
-            <!-- <button class="nav-button left" onclick="scrolloffers(1)">
-        &#8249;
-      </button> -->
-            <div class="offers" id="offers">
-                <div class="hotel">
-                    <img src="./images/discount-weekend/indochine.jpg" alt="Indochine Hotel SG" />
-                    <div class="hotel-info">
-                        <a href="#">Indochine Hotel SG</a>
-                        <div class="hotel-details">TP. Hồ Chí Minh, Việt Nam</div>
-                        <span class="hotel-details2">9.2 Tuyệt hảo · 167 đánh giá</span>
-                        <p>
-                            <span class="old-price">VND 2.993.500</span>
-                            <span class="new-price">VND 2.394.000</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="hotel">
-                    <img src="/images/discount-weekend/hoianlegend.jpg" alt="Hoi An Legend Charm Boutique Hotel" />
-                    <div class="hotel-info">
-                        <a href="#">Hoi An Legend Charm Boutique Hotel</a>
-                        <div class="hotel-details">Hội An, Việt Nam</div>
-                        <span class="hotel-details2">9.1 Tuyệt hảo · 150 đánh giá</span>
-                        <p>
-                            <span class="old-price">VND 5.544.000</span>
-                            <span class="new-price">VND 997.920</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="hotel">
-                    <img src="/images/discount-weekend/airabangkok.jpg" alt="Aira Hotel Bangkok Sukhumvit 11" />
-                    <div class="hotel-info">
-                        <a href="#">Aira Hotel Bangkok Sukhumvit 11</a>
-                        <div class="hotel-details">Bangkok, Thái Lan</div>
-                        <span class="hotel-details2">8.4 Rất tốt · 4.717 đánh giá</span>
-                        <p>
-                            <span class="old-price">VND 4.953.332</span>
-                            <span class="new-price">VND 4.557.066</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="hotel">
-                    <img src="/images/discount-weekend/apina.jpg" alt="Apina Saigon - Truong Dinh" />
-                    <div class="hotel-info">
-                        <a href="#">Apina Saigon - Truong Dinh</a>
-                        <div class="hotel-details">TP. Hồ Chí Minh, Việt Nam</div>
-                        <span class="hotel-details2">9.1 Tuyệt hảo · 147 đánh giá</span>
-                        <p>
-                            <span class="old-price">VND 1.539.000</span>
-                            <span class="new-price">VND 1.354.320</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="hotel">
-                    <img src="/images/discount-weekend/halongbay.jpg" alt="Hạ Long Bay Resort" />
-                    <div class="hotel-info">
-                        <a href="#">Hạ Long Bay Resort</a>
-                        <div class="hotel-details">Hạ Long, Việt Nam</div>
-                        <span class="hotel-details2">9.3 Tuyệt hảo · 200 đánh giá</span>
-                        <p>
-                            <span class="old-price">VND 4.000.000</span>
-                            <span class="new-price">VND 3.500.000</span>
-                        </p>
-                    </div>
-                </div>
-                <div class="hotel">
-                    <img src="/images/discount-weekend/phuquoc.jpg" alt="Phú Quốc Island Resort" />
-                    <div class="hotel-info">
-                        <a href="#">Phú Quốc Island Resort</a>
-                        <div class="hotel-details">Phú Quốc, Việt Nam</div>
-                        <span class="hotel-details2">9.0 Tuyệt hảo · 300 đánh giá</span>
-                        <p>
-                            <span class="old-price">VND 6.000.000</span>
-                            <span class="new-price">VND 5.200.000</span>
-                        </p>
-                    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Personal Information Section -->
+        <section id="personal-info" style="display: none;">
+            <div class="title">
+                <h1>Thông tin cá nhân</h1>
+
+                <div class="messages">
+                    <?php if (isset($_SESSION['success_message'])): ?>
+                        <span class="message success" id="message"><?php echo $_SESSION['success_message']; ?></span>
+                        <?php unset($_SESSION['success_message']); ?>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['error_message'])): ?>
+                        <span class="message error" id="message"><?php echo $_SESSION['error_message']; ?></span>
+                        <?php unset($_SESSION['error_message']); ?>
+                    <?php endif; ?>
                 </div>
             </div>
-            <!-- <button class="nav-button right" onclick="scrolloffers(1)">
-        &#8250;
-      </button> -->
-        </div>
+
+            <form class="profile" action="" method="POST">
+                <div class="profile-info">
+                    <div class="profile-row">
+                        <label for="name" class="label">Tên</label>
+                        <input type="text" id="name" name="name" class="input" value="<?php echo $userInfo['fullname']?>">
+                    </div>
+                    <div class="profile-row">
+                        <label for="email" class="label">Địa chỉ email</label>
+                        <input type="email" id="email" name="email" class="input" value="<?php echo $userInfo['email']?>">
+                    </div>
+                    <div class="profile-row">
+                        <label for="phone" class="label">Số điện thoại</label>
+                        <input type="text" id="phone" name="phone" class="input" value="<?php echo $userInfo['phone']?>">
+                    </div>
+                    <div class="profile-row">
+                        <label for="birthday" class="label">Ngày sinh</label>
+                        <input type="date" id="birthday" name="birthday" class="input" value="<?php echo $userInfo['birthday']?>">
+                    </div>
+                    <div class="profile-row">
+                        <label for="gender" class="label">Giới tính</label>
+                        <select id="gender" name="gender" class="input">
+                            <option value="" <?php echo $userInfo['sex'] == '' ? 'selected' : ''; ?>>Chọn giới tính</option>
+                            <option value="Nam" <?php echo $userInfo['sex'] == 'Nam' ? 'selected' : ''; ?>>Nam</option>
+                            <option value="Nữ" <?php echo $userInfo['sex'] == 'Nữ' ? 'selected' : ''; ?>>Nữ</option>
+                            <option value="Khác" <?php echo $userInfo['sex'] == 'Khác' ? 'selected' : ''; ?>>Khác</option>
+                        </select>
+                    </div>
+                    <div class="profile-row">
+                        <label for="address" class="label">Địa chỉ</label>
+                        <input type="text" id="address" name="address" class="input" placeholder="Nhập địa chỉ" value="<?php echo $userInfo['address']?>">
+                    </div>
+                    <div class="profile-row">
+                        <button class="submit-button" name="update">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </form>
+        </section>
     </div>
+
+    <section id="trips" style="display: none;">
+        <div class="title">
+            <h1>Chuyến đi của bạn</h1>
+            <!-- Nội dung Chuyến đi -->
+        </div>
+    </section>
+
+    <section id="change-password">
+        <div class="title">
+            <h1>Đổi mật khẩu</h1>
+        </div>
+
+        <form class="change-password-form" action="user.php" method="POST">
+            <div class="password-info">
+                <div class="password-row">
+                    <label for="current_password" class="label">Mật khẩu hiện tại</label>
+                    <input type="password" id="current_password" name="current_password" class="input" required>
+                </div>
+                <div class="password-row">
+                    <label for="new_password" class="label">Mật khẩu mới</label>
+                    <input type="password" id="new_password" name="new_password" class="input" required>
+                </div>
+                <div class="password-row">
+                    <label for="confirm_password" class="label">Xác nhận mật khẩu mới</label>
+                    <input type="password" id="confirm_password" name="confirm_password" class="input" required>
+                </div>
+                <div class="password-row">
+                    <button class="submit-button" name="change_password">Đổi mật khẩu</button>
+                </div>
+            </div>
+        </form>
+    </section>
 </div>
 <!-- footer -->
 <div id="footer">
@@ -328,30 +253,5 @@ $rowUser = $userName->fetch_assoc();
         <a href=""><i class="fa-brands fa-linkedin"></i></a>
     </div>
 </div>
-<script>
-    function scrollCarousel(direction) {
-        const carousel = document.getElementById("carousel");
-        const scrollAmount = 200; // Adjust the scroll distance
-        carousel.scrollBy({
-            left: direction * scrollAmount,
-            behavior: "smooth",
-        });
-    }
-
-    function scrolloffers(direction) {
-        const carousel = document.getElementById("offers");
-        const scrollAmount = 200; // Adjust the scroll distance
-        carousel.scrollBy({
-            left: direction * scrollAmount,
-            behavior: "smooth",
-        });
-    }
-
-    function toggleDropdown() {
-        var dropdown = document.getElementById('dropdownMenu');
-        dropdown.classList.toggle('active');
-    }
-</script>
 </body>
-
 </html>
