@@ -68,9 +68,9 @@ if (!isset($_SESSION['admin'])) { //nếu session username k tồn tại thì qu
         <div class="category">
             <div class="both_first">
                 <h3>Tùy chọn</h3>
-                <div class="click_option">
+                <!-- <div class="click_option">
                     <i class="fa-solid fa-bars"></i>
-                </div>
+                </div> -->
             </div>
             <ul class="category_list">
                 <a href="?page=hotel" class="text-category">
