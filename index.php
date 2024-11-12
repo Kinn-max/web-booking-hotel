@@ -11,9 +11,17 @@ if(isset($_SESSION['userEmail'])){
     $loggedIn = false;
 }
 
-$city = "SELECT city.id, city.name, city.image, COUNT(hotel.id) AS total_hotels
-        FROM city LEFT JOIN hotel ON city.id = hotel.id_city GROUP BY city.id, city.name, city.image";
+$city = "SELECT city.id, city.name, city.image, COUNT(hotel.id)
+        AS total_hotels
+        FROM city
+        LEFT JOIN hotel
+        ON city.id = hotel.id_city
+        GROUP BY city.id, city.name, city.image";
 $cityData = $mysqli->query($city);
+$cities = [];
+while ($rowCity = $cityData->fetch_assoc()) {
+    $cities[] = $rowCity;
+}
 
 $hotel = "SELECT * FROM hotel";
 $hotelData = $mysqli->query($hotel);
@@ -132,6 +140,7 @@ $hotelData = $mysqli->query($hotel);
     </div>
     <!-- body -->
     <div class="container">
+        <!-- Khám Phá Việt Nam -->
         <div class="section">
             <div>
                 <h2>Khám Phá Việt Nam</h2>
@@ -142,11 +151,11 @@ $hotelData = $mysqli->query($hotel);
                     &#8249;
                 </button>
                 <div class="carousel" id="carousel">
-                    <?php while ($rowCity = $cityData->fetch_assoc()) { ?>
+                    <?php foreach ($cities as $rowCity) { ?>
                         <div class="carousel-item">
                             <a href="#">
-                                <img src="<?php echo "./images/kham-pha-vn/" . $rowCity['image'] ?>" />
-                                <h3> <?php echo $rowCity['name'] ?></h3>
+                                <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>" />
+                                <h3><?php echo $rowCity['name'] ?></h3>
                                 <p><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></p>
                             </a>
                         </div>
@@ -157,84 +166,143 @@ $hotelData = $mysqli->query($hotel);
                 </button>
             </div>
         </div>
+        <!-- Phần Ưu đãi cho cuối tuần -->
         <div class="section" align="center">
             <div class="heading">
                 <h2>Ưu đãi cho cuối tuần</h2>
                 <p>Tiết kiệm cho chỗ nghỉ từ ngày 4 tháng 10 - ngày 6 tháng 10</p>
             </div>
             <div class="offers-wrapper">
-                <div class="offers" id="offers">
-                    <div class="hotel">
-                        <img src="./images/discount-weekend/indochine.jpg" alt="Indochine Hotel SG" />
-                        <div class="hotel-info">
-                            <a href="#">Indochine Hotel SG</a>
-                            <div class="hotel-details">TP. Hồ Chí Minh, Việt Nam</div>
-                            <span class="hotel-details2">9.2 Tuyệt hảo · 167 đánh giá</span>
-                            <p>
-                                <span class="old-price">VND 2.993.500</span>
-                                <span class="new-price">VND 2.394.000</span>
-                            </p>
+                <div class="scroll-bar">
+                <button class="prev-btn" onclick="scrolloffers(-1)">
+                    &#8249;
+                  </button>
+                <button class="next-btn" onclick="scrolloffers(1)">
+                    &#8250;
+                  </button>
+                </div>
+                    <ul class="offers" id="offers">
+                        <?php foreach ($cities as $rowCity) { ?>
+                            <li>
+                                <a class="selection-area" href="#">
+                                    <div class="hotel">
+                                        <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>">
+                                        <div class="hotel-info">
+                                            <div class="title"><?php echo $rowCity['name'] ?></div>
+                                            <div class="hotel-details"><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></div>
+                                            <div class="price">
+                                                <div class="old-price">VND 000.000.000</div>
+                                                <div class="new-price">VND 000.000.000</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+            </div>
+        </div>
+        <!-- Ưu đãi -->
+        <div class="section" align="center">
+            <div class="heading">
+                <h2>Ưu đãi</h2>
+                <p>Khuyến mãi, giảm giá và ưu đãi đặc biệt dành riêng cho bạn</p>
+            </div>
+            <div class="border">
+                <div class="go-more">
+                    <div class="go-more-info">
+                        <div class="go-more-title">
+                            Vui là chính, không cần dài
+                        </div>
+                        <div class="go-more-content">
+                            Kết năm với kỳ nghỉ ngắn. Tiết kiệm từ 15% trở lên khi đặt và lưu trú đến hết 7/1/2025. 
+                        </div>
+                        <div class="sign-in-and-sign-up">
+                            <a href="auth/login.php"><button class="sign-in-button">Đăng nhập để tìm ưu đãi cuối năm</button></a>
                         </div>
                     </div>
-                    <div class="hotel">
-                        <img src="/images/discount-weekend/hoianlegend.jpg" alt="Hoi An Legend Charm Boutique Hotel" />
-                        <div class="hotel-info">
-                            <a href="#">Hoi An Legend Charm Boutique Hotel</a>
-                            <div class="hotel-details">Hội An, Việt Nam</div>
-                            <span class="hotel-details2">9.1 Tuyệt hảo · 150 đánh giá</span>
-                            <p>
-                                <span class="old-price">VND 5.544.000</span>
-                                <span class="new-price">VND 997.920</span>
-                            </p>
+                    <div class="banner">
+                        <img src="Genius.jpg" alt="Banner">
+                    </div>
+                </div>
+            </div>
+         </div>
+        <!-- Nhà ở mà khách yêu thích -->
+        <div class="section" align="center">
+            <div class="heading">
+                <h2>Nhà ở mà khách yêu thích</h2>
+            </div>
+            <div class="offers-wrapper">
+                <div class="scroll-bar">
+                <button class="prev-btn" onclick="scrolloffers(-1)">
+                    &#8249;
+                  </button>
+                <button class="next-btn" onclick="scrolloffers(1)">
+                    &#8250;
+                  </button>
+                </div>
+                    <ul class="offers" id="offers">
+                        <?php foreach ($cities as $rowCity) { ?>
+                            <li>
+                                <a class="selection-area" href="#">
+                                    <div class="hotel">
+                                        <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>">
+                                        <div class="hotel-info">
+                                            <div class="title"><?php echo $rowCity['name'] ?></div>
+                                            <div class="hotel-details"><?php echo $rowCity['name']?></div>
+                                            <div class="hotel-details"><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></div>
+                                            <div class="price">
+                                                <div class="start-from">Bắt đầu từ</div>
+                                                <div class="new-price">VND 000.000.000</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
+            </div>
+        </div>
+        <!-- Đi nhiều hơn, chi ít hơn -->
+         <div class="section" align="center">
+            <div class="heading">
+                <h2>Đi nhiều hơn, chi ít hơn</h2>
+            </div>
+            <div class="border">
+                <div class="go-more">
+                    <div class="go-more-info">
+                        <div class="go-more-title">
+                            Đăng nhập để tiết kiệm
+                        </div>
+                        <div class="go-more-content">
+                            Chỉ cần tìm nhãn Genius xanh lam để tiết kiệm 10% trở lên ở những chỗ nghỉ có tham gia
+                        </div>
+                        <div class="sign-in-and-sign-up">
+                            <a href="auth/login.php"><button class="sign-in-button">Đăng nhập</button></a>
+                            <a href="auth/register.php"><button class="sign-up-button">Đăng kí</button></a>
                         </div>
                     </div>
-                    <div class="hotel">
-                        <img src="/images/discount-weekend/airabangkok.jpg" alt="Aira Hotel Bangkok Sukhumvit 11" />
-                        <div class="hotel-info">
-                            <a href="#">Aira Hotel Bangkok Sukhumvit 11</a>
-                            <div class="hotel-details">Bangkok, Thái Lan</div>
-                            <span class="hotel-details2">8.4 Rất tốt · 4.717 đánh giá</span>
-                            <p>
-                                <span class="old-price">VND 4.953.332</span>
-                                <span class="new-price">VND 4.557.066</span>
-                            </p>
+                    <div class="banner">
+                        <img src="Genius.jpg" alt="Banner">
+                    </div>
+                </div>
+            </div>
+         </div>
+    
+        <!-- AwarenessBanner -->
+        <div class="section" align="center">
+            <div class="border">
+                <div class="awareness-banner">
+                    <div class="circle">
+                        <div class="circle-content">
+                            Tìm nhà nghỉ dưỡng<br>cho chuyến đi tới
+                        </div>
+                        <div class="circle-button">
+                            Khám phá chỗ nghỉ như ở nhà
                         </div>
                     </div>
-                    <div class="hotel">
-                        <img src="/images/discount-weekend/apina.jpg" alt="Apina Saigon - Truong Dinh" />
-                        <div class="hotel-info">
-                            <a href="#">Apina Saigon - Truong Dinh</a>
-                            <div class="hotel-details">TP. Hồ Chí Minh, Việt Nam</div>
-                            <span class="hotel-details2">9.1 Tuyệt hảo · 147 đánh giá</span>
-                            <p>
-                                <span class="old-price">VND 1.539.000</span>
-                                <span class="new-price">VND 1.354.320</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="hotel">
-                        <img src="/images/discount-weekend/halongbay.jpg" alt="Hạ Long Bay Resort" />
-                        <div class="hotel-info">
-                            <a href="#">Hạ Long Bay Resort</a>
-                            <div class="hotel-details">Hạ Long, Việt Nam</div>
-                            <span class="hotel-details2">9.3 Tuyệt hảo · 200 đánh giá</span>
-                            <p>
-                                <span class="old-price">VND 4.000.000</span>
-                                <span class="new-price">VND 3.500.000</span>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="hotel">
-                        <img src="/images/discount-weekend/phuquoc.jpg" alt="Phú Quốc Island Resort" />
-                        <div class="hotel-info">
-                            <a href="#">Phú Quốc Island Resort</a>
-                            <div class="hotel-details">Phú Quốc, Việt Nam</div>
-                            <span class="hotel-details2">9.0 Tuyệt hảo · 300 đánh giá</span>
-                            <p>
-                                <span class="old-price">VND 6.000.000</span>
-                                <span class="new-price">VND 5.200.000</span>
-                            </p>
-                        </div>
+                    <div class="awareness-banner-img">
+                        <img src="https://cf.bstatic.com/psb/capla/static/media/bh_aw_cpg_main_image.b4347622.png" alt="Banner">
                     </div>
                 </div>
             </div>
@@ -332,7 +400,7 @@ $hotelData = $mysqli->query($hotel);
 
         function scrolloffers(direction) {
             const carousel = document.getElementById("offers");
-            const scrollAmount = 200;
+            const scrollAmount = 300;
             carousel.scrollBy({
                 left: direction * scrollAmount,
                 behavior: "smooth",
