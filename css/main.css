@@ -39,14 +39,6 @@ body {
   margin: 0;
   background-color: white;
 }
-ul{
-  display:flex;
-  position:relative;
-  box-sizing:border-box;
-  overflow-x:scroll;
-  scrollbar-width: none;
-  list-style-type: none;
-}
 .scroll-bar {
   display:flex;
   position: absolute;
