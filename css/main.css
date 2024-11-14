@@ -32,6 +32,9 @@ body {
   background-color: white;
   scroll-behavior: smooth;
 }
+.offers-wrapper ul{
+  list-style-type: none;
+}
 .offers {
   display: flex;
   gap: 16px;
