@@ -222,7 +222,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                         </div>
                     </div>
                     <div class="banner">
-                        <img src="/images/discount-weekend/Genius.jgp" alt="Banner">
+                        <img src="/images/discount-weekend/Genius.jpg" alt="Banner">
                     </div>
                 </div>
             </div>
@@ -282,7 +282,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                         </div>
                     </div>
                     <div class="banner">
-                        <img src="/images/discount-weekend/Genius.jgp" alt="Banner">
+                        <img src="/images/discount-weekend/Genius.jpg" alt="Banner">
                     </div>
                 </div>
             </div>
