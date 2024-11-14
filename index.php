@@ -11,11 +11,7 @@ if(isset($_SESSION['userEmail'])){
     $loggedIn = false;
 }
 
-$city = "SELECT city.id, city.name, city.image, COUNT(hotel.id)
-        AS total_hotels
-        FROM city
-        LEFT JOIN hotel
-        ON city.id = hotel.id_city
+$city = "SELECT city.id, city.name, city.image, COUNT(hotel.id) AS total_hotels FROM city LEFT JOIN hotel ON city.id = hotel.id_city
         GROUP BY city.id, city.name, city.image";
 $cityData = $mysqli->query($city);
 $cities = [];
@@ -25,6 +21,10 @@ while ($rowCity = $cityData->fetch_assoc()) {
 
 $hotel = "SELECT * FROM hotel";
 $hotelData = $mysqli->query($hotel);
+
+$ks = "SELECT name, address, image, old_price, new_price FROM hotel";
+$result = $mysqli->query($ks);
+$hotels = $result->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
@@ -181,25 +181,25 @@ $hotelData = $mysqli->query($hotel);
                     &#8250;
                   </button>
                 </div>
-                    <ul class="offers" id="offers">
-                        <?php foreach ($cities as $rowCity) { ?>
-                            <li>
-                                <a class="selection-area" href="#">
-                                    <div class="hotel">
-                                        <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>">
-                                        <div class="hotel-info">
-                                            <div class="title"><?php echo $rowCity['name'] ?></div>
-                                            <div class="hotel-details"><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></div>
-                                            <div class="price">
-                                                <div class="old-price">VND 000.000.000</div>
-                                                <div class="new-price">VND 000.000.000</div>
-                                            </div>
+                <ul class="offers" id="offers">
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <li>
+                            <a class="selection-area" href="#">
+                                <div class="hotel">
+                                    <img src="<?php echo "images/discount-weekend/" . $hotel['image']; ?>">
+                                    <div class="hotel-info">
+                                        <div class="title"><?php echo $hotel['name']; ?></div>
+                                        <div class="hotel-details"><?php echo $hotel['address']; ?></div>
+                                        <div class="price">
+                                            <div class="old-price"><?php echo $hotel['old_price'] . "VND" ?></div>
+                                            <div class="new-price"><?php echo $hotel['new_price'] . "VND" ?></div>
                                         </div>
                                     </div>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                </ul>
             </div>
         </div>
         <!-- Ưu đãi -->
@@ -222,7 +222,7 @@ $hotelData = $mysqli->query($hotel);
                         </div>
                     </div>
                     <div class="banner">
-                        <img src="Genius.jpg" alt="Banner">
+                        <img src="/images/discount-weekend/Genius.jgp" alt="Banner">
                     </div>
                 </div>
             </div>
@@ -234,33 +234,32 @@ $hotelData = $mysqli->query($hotel);
             </div>
             <div class="offers-wrapper">
                 <div class="scroll-bar">
-                <button class="prev-btn" onclick="scrolloffers(-1)">
+                <button class="prev-btn" onclick="scrollOffers(-1)">
                     &#8249;
                   </button>
-                <button class="next-btn" onclick="scrolloffers(1)">
+                <button class="next-btn" onclick="scrollOffers(1)">
                     &#8250;
                   </button>
                 </div>
-                    <ul class="offers" id="offers">
-                        <?php foreach ($cities as $rowCity) { ?>
-                            <li>
-                                <a class="selection-area" href="#">
-                                    <div class="hotel">
-                                        <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>">
-                                        <div class="hotel-info">
-                                            <div class="title"><?php echo $rowCity['name'] ?></div>
-                                            <div class="hotel-details"><?php echo $rowCity['name']?></div>
-                                            <div class="hotel-details"><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></div>
-                                            <div class="price">
-                                                <div class="start-from">Bắt đầu từ</div>
-                                                <div class="new-price">VND 000.000.000</div>
-                                            </div>
+                <ul class="offers" id="offer">
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <li>
+                            <a class="selection-area" href="#">
+                                <div class="hotel">
+                                    <img src="<?php echo "images/discount-weekend/" . $hotel['image']; ?>">
+                                    <div class="hotel-info">
+                                        <div class="title"><?php echo $hotel['name']; ?></div>
+                                        <div class="hotel-details"><?php echo $hotel['address']; ?></div>
+                                        <div class="price">
+                                            <div class="start-from">Bắt đầu từ </div>
+                                            <div class="new-price"><?php echo $hotel['new_price'] . "VND" ?></div>
                                         </div>
                                     </div>
-                                </a>
-                            </li>
-                        <?php } ?>
-                    </ul>
+                                </div>
+                            </a>
+                        </li>
+                    <?php } ?>
+                </ul>
             </div>
         </div>
         <!-- Đi nhiều hơn, chi ít hơn -->
@@ -283,7 +282,7 @@ $hotelData = $mysqli->query($hotel);
                         </div>
                     </div>
                     <div class="banner">
-                        <img src="Genius.jpg" alt="Banner">
+                        <img src="/images/discount-weekend/Genius.jgp" alt="Banner">
                     </div>
                 </div>
             </div>
@@ -302,7 +301,7 @@ $hotelData = $mysqli->query($hotel);
                         </div>
                     </div>
                     <div class="awareness-banner-img">
-                        <img src="https://cf.bstatic.com/psb/capla/static/media/bh_aw_cpg_main_image.b4347622.png" alt="Banner">
+                        <img src="/images/discount-weekend/banner.jpg" alt="Banner">
                     </div>
                 </div>
             </div>
