@@ -1,8 +1,8 @@
 <?php
 include("config/connect.php");
 session_start();
-$loggedIn = false;  // Đảm bảo rằng biến này luôn được khai báo
-$rowUser = null;     // Đảm bảo rằng biến này luôn được khai báo
+$loggedIn = false;  
+$rowUser = null;   
 
 if (isset($_SESSION['userEmail'])) {
     $loggedIn = true;
@@ -157,49 +157,49 @@ foreach ($rooms as $room) {
 
         </div>
         <div class="select_date">
-        <form action="search.php" method="GET">
-          <div class="select_date_form">
-              <div class="header_input_form" style="flex: 2">
-                  <i class="fa-solid fa-bed"></i>
-                  <input
-                      class="input_form"
-                      type="text"
-                      name="destination"
-                      placeholder="Bạn muốn đến đâu?"
-                  />
-              </div>
-              <div class="header_input_form" style="flex: 1">
-                  <i class="fa-solid fa-calendar-days"></i>
-                  <input class="input_form" type="date" name="date" />
-              </div>
-              <div class="header_input_form" style="flex: 1">
-                <button  type="button" class="header_dropdown_form">
-                    <span>
-                        <i class="fa-solid fa-bed icon-dropdown"></i>
-                        <span class="number_of_bed">1</span> <!-- Hiển thị số giường -->
-                    </span>
-                    <div class="connect_two-element"></div>
-                    <span><i class="fa-solid fa-chevron-down"></i></span>
-                </button>
-                <div class="hover-hidden"></div>
-                <div class="options">
-                    <div class="input-adult df">
-                        <div class="label-adult df">
-                            <label for="">Giường</label>
-                        </div>
-                        <div class="select-adult">
-                            <button type="button" class="pointer-hover" onclick="updateValue('rooms', -1)">-</button>
-                            <span id="rooms_count">1</span>
-                            <input type="hidden" name="rooms" id="rooms" value="1">
-                            <button type="button" onclick="updateValue('rooms', 1)">+</button>
-                        </div>
-                    </div>
-                    <button type="button" class="confirm-option" onclick="closeOptions()">Xong</button>
+            <form action="search.php" method="GET" onsubmit="return validateForm()">
+            <div class="select_date_form">
+                <div class="header_input_form" style="flex: 2">
+                    <i class="fa-solid fa-bed"></i>
+                    <input
+                        class="input_form"
+                        type="text"
+                        name="destination"
+                        placeholder="Bạn muốn đến đâu?"
+                        id="destination"
+                    />
                 </div>
+                <div class="header_input_form" style="flex: 1">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <input class="input_form" type="date" name="date" />
+                </div>
+                <div class="header_input_form" style="flex: 1">
+                    <button  type="button" class="header_dropdown_form">
+                        <span>
+                            <i class="fa-solid fa-bed icon-dropdown"></i>
+                            <span class="number_of_bed">1</span> <!-- Hiển thị số giường -->
+                        </span>
+                        <div class="connect_two-element"></div>
+                        <span><i class="fa-solid fa-chevron-down"></i></span>
+                    </button>
+                    <div class="options">
+                        <div class="input-adult df">
+                            <div class="label-adult df">
+                                <label for="">Giường</label>
+                            </div>
+                            <div class="select-adult">
+                                <button type="button" onclick="updateValue('rooms', -1)">-</button>
+                                <span id="rooms_count">1</span>
+                                <input type="hidden" name="rooms" id="rooms" value="1">
+                                <button type="button" onclick="updateValue('rooms', 1)">+</button>
+                            </div>
+                        </div>
+                        <button type="button" class="confirm-option" onclick="closeOptions()">Xong</button>
+                    </div>
+                </div>
+                <button class="header_btn_form" type="submit">Tìm</button>
             </div>
-              <button class="header_btn_form" type="submit">Tìm</button>
-          </div>
-        </form>
+            </form>
         </div>
         </div>
     </div>
@@ -563,6 +563,15 @@ foreach ($rooms as $room) {
             var dropdown = document.getElementById('dropdownMenu');
             dropdown.classList.toggle('active');
         }
+        function validateForm() {
+          var destination = document.getElementById('destination').value.trim(); 
+
+          if (destination === "") {
+              alert("Vui lòng nhập địa điểm bạn muốn đến!"); 
+              return false; 
+          }
+          return true;
+      }
     </script>
 </body>
 

@@ -84,7 +84,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
         <div class="select_date">
-        <form action="search.php" method="GET">
+        <form action="search.php" method="GET" onsubmit="return validateForm()">
           <div class="select_date_form">
               <div class="header_input_form" style="flex: 2">
                   <i class="fa-solid fa-bed"></i>
@@ -93,6 +93,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                       type="text"
                       name="destination"
                       placeholder="Bạn muốn đến đâu?"
+                       id="destination"
                   />
               </div>
               <div class="header_input_form" style="flex: 1">
@@ -125,7 +126,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             </div>
               <button class="header_btn_form" type="submit">Tìm</button>
           </div>
-      </form>
+        </form>
         </div>
     </div>
     <!-- body -->
@@ -426,6 +427,15 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             var dropdown = document.getElementById('dropdownMenu');
             dropdown.classList.toggle('active');
         }
+        function validateForm() {
+          var destination = document.getElementById('destination').value.trim(); 
+
+          if (destination === "") {
+              alert("Vui lòng nhập địa điểm bạn muốn đến!"); 
+              return false; 
+          }
+          return true;
+      }
     </script>
 </body>
 

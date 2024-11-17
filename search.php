@@ -118,7 +118,7 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
         </div>
       <div class="select_date">
        
-        <form action="search.php" method="GET">
+        <form action="search.php" method="GET" onsubmit="return validateForm()">
           <div class="select_date_form">
               <div class="header_input_form" style="flex: 2">
                   <i class="fa-solid fa-bed"></i>
@@ -127,6 +127,7 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
                       type="text"
                       name="destination"
                       placeholder="Bạn muốn đến đâu?"
+                       id="destination"
                   />
               </div>
               <div class="header_input_form" style="flex: 1">
@@ -186,11 +187,13 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
         </div>
       </div>
       <div class="group-content" style="">
-        <h1 class="title-sreach" style="display: flex;">Tìm kiếm với kết quả: <p style="color: red; font-size: 1.2rem; padding: 0 10px;"> 
+        <div class="heading">
+          <h2 style="display: flex;">Tìm kiếm với kết quả:<p style="color: red; font-size: 1.2rem; padding: 0 10px;"> 
         <?php 
               echo $nameSearch?$nameSearch:"";
            ?>
-        </p> <span> tìm thấy <?php  echo $count_hotel?>  kết quả</span></h1>
+        </p> <span> tìm thấy <?php  echo $count_hotel?>  kết quả</span></h1> </h2>
+        </div>
         <ul class="">
         <?php while($result = mysqli_fetch_array($sql_search_final)){   ?>
           <li>
@@ -290,6 +293,15 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
             var dropdown = document.getElementById('dropdownMenu');
             dropdown.classList.toggle('active');
         }
+        function validateForm() {
+          var destination = document.getElementById('destination').value.trim(); 
+
+          if (destination === "") {
+              alert("Vui lòng nhập địa điểm bạn muốn đến!"); 
+              return false; 
+          }
+          return true;
+      }
   </script>
 </body>
 
