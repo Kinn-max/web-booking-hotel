@@ -1,7 +1,7 @@
 <?php
 include('config/connect.php');
 session_start();
-if(isset($_SESSION['userEmail'])){
+if (isset($_SESSION['userEmail'])) {
     $loggedIn = true;
     $email = $_SESSION['userEmail'];
     $user = "SELECT * FROM user WHERE email = '$email'";
@@ -18,13 +18,16 @@ $cities = [];
 while ($rowCity = $cityData->fetch_assoc()) {
     $cities[] = $rowCity;
 }
+
 $hotel = "SELECT * FROM hotel ORDER BY RAND() LIMIT 12";
 $hotelData = mysqli_query($mysqli, $hotel);
 
-$ks = "SELECT name, address, image,id,slug FROM hotel";
+$ks = "SELECT h.name, h.address, h.id, h.slug, 
+       (SELECT name FROM image_hotel WHERE id_hotel = h.id LIMIT 1) as thumbnail 
+       FROM hotel h";
+
 $result = $mysqli->query($ks);
 $hotels = $result->fetch_all(MYSQLI_ASSOC);
-
 ?>
 
 
@@ -59,16 +62,16 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                 <?php if ($loggedIn): ?>
                     <div class="navbar" onclick="toggleDropdown()">
                         <div class="user-info">
-                            <span class="user-name"> Chào mừng, <?php echo $rowUser['fullname']?> </span>
+                            <span class="user-name"> Chào mừng, <?php echo $rowUser['fullname'] ?> </span>
                             <span class="user-status"></span>
                             <div class="dropdown-menu" id="dropdownMenu">
-                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=profile">
+                                <a href="user/user.php?id=<?php echo $rowUser['id'] ?>&&page=profile">
                                     <span class="icon">👤</span> Thông tin cá nhân
                                 </a>
-                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=book-history">
+                                <a href="user/user.php?id=<?php echo $rowUser['id'] ?>&&page=book-history">
                                     <span class="icon">💼</span> Lịch sử chuyến đi
                                 </a>
-                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=change-password">
+                                <a href="user/user.php?id=<?php echo $rowUser['id'] ?>&&page=change-password">
                                     <span class="icon">🔐</span> Đổi mật khẩu
                                 </a>
                                 <a href="auth/logout.php">
@@ -84,49 +87,48 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
         <div class="select_date">
-        <form action="search.php" method="GET" onsubmit="return validateForm()">
-          <div class="select_date_form">
-              <div class="header_input_form" style="flex: 2">
-                  <i class="fa-solid fa-bed"></i>
-                  <input
-                      class="input_form"
-                      type="text"
-                      name="destination"
-                      placeholder="Bạn muốn đến đâu?"
-                       id="destination"
-                  />
-              </div>
-              <div class="header_input_form" style="flex: 1">
-                  <i class="fa-solid fa-calendar-days"></i>
-                  <input class="input_form" type="date" name="date" />
-              </div>
-              <div class="header_input_form" style="flex: 1">
-                <button  type="button" class="header_dropdown_form">
-                    <span>
-                        <i class="fa-solid fa-bed icon-dropdown"></i>
-                        <span class="number_of_bed">1</span> <!-- Hiển thị số giường -->
-                    </span>
-                    <div class="connect_two-element"></div>
-                    <span><i class="fa-solid fa-chevron-down"></i></span>
-                </button>
-                <div class="options">
-                    <div class="input-adult df">
-                        <div class="label-adult df">
-                            <label for="">Giường</label>
-                        </div>
-                        <div class="select-adult">
-                            <button type="button" onclick="updateValue('rooms', -1)">-</button>
-                            <span id="rooms_count">1</span>
-                            <input type="hidden" name="rooms" id="rooms" value="1">
-                            <button type="button" onclick="updateValue('rooms', 1)">+</button>
+            <form action="search.php" method="GET" onsubmit="return validateForm()">
+                <div class="select_date_form">
+                    <div class="header_input_form" style="flex: 2">
+                        <i class="fa-solid fa-bed"></i>
+                        <input
+                            class="input_form"
+                            type="text"
+                            name="destination"
+                            placeholder="Bạn muốn đến đâu?"
+                            id="destination" />
+                    </div>
+                    <div class="header_input_form" style="flex: 1">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <input class="input_form" type="date" name="date" />
+                    </div>
+                    <div class="header_input_form" style="flex: 1">
+                        <button type="button" class="header_dropdown_form">
+                            <span>
+                                <i class="fa-solid fa-bed icon-dropdown"></i>
+                                <span class="number_of_bed">1</span> <!-- Hiển thị số giường -->
+                            </span>
+                            <div class="connect_two-element"></div>
+                            <span><i class="fa-solid fa-chevron-down"></i></span>
+                        </button>
+                        <div class="options">
+                            <div class="input-adult df">
+                                <div class="label-adult df">
+                                    <label for="">Giường</label>
+                                </div>
+                                <div class="select-adult">
+                                    <button type="button" onclick="updateValue('rooms', -1)">-</button>
+                                    <span id="rooms_count">1</span>
+                                    <input type="hidden" name="rooms" id="rooms" value="1">
+                                    <button type="button" onclick="updateValue('rooms', 1)">+</button>
+                                </div>
+                            </div>
+                            <button type="button" class="confirm-option" onclick="closeOptions()">Xong</button>
                         </div>
                     </div>
-                    <button type="button" class="confirm-option" onclick="closeOptions()">Xong</button>
+                    <button class="header_btn_form" type="submit">Tìm</button>
                 </div>
-            </div>
-              <button class="header_btn_form" type="submit">Tìm</button>
-          </div>
-        </form>
+            </form>
         </div>
     </div>
     <!-- body -->
@@ -145,7 +147,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                     <?php foreach ($cities as $rowCity) { ?>
                         <div class="carousel-item">
                             <a href="/web-booking-hotel/search.php?destination=<?php echo $rowCity['name'] ?>">
-                                <img src="<?php echo "images/kham-pha-vn/" . $rowCity['image'] ?>" />
+                                <img src="<?php echo "images/cities/" . $rowCity['image'] ?>" />
                                 <h3><?php echo $rowCity['name'] ?></h3>
                                 <p><?php echo $rowCity['total_hotels'] . " chỗ nghỉ" ?></p>
                             </a>
@@ -165,48 +167,48 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             </div>
             <div class="offers-wrapper">
                 <div class="scroll-bar">
-                <button class="prev-btn" onclick="scrolloffers(-1)">
-                    &#8249;
-                  </button>
-                <button class="next-btn" onclick="scrolloffers(1)">
-                    &#8250;
-                  </button>
+                    <button class="prev-btn" onclick="scrolloffers(-1)">
+                        &#8249;
+                    </button>
+                    <button class="next-btn" onclick="scrolloffers(1)">
+                        &#8250;
+                    </button>
                 </div>
                 <ul class="offers" id="offers">
-                <?php foreach ($hotels as $hotel) { ?>
-                    <li>
-                        <a class="selection-area" href="/web-booking-hotel/hotel-detail.php?slug=<?php echo$hotel["slug"] ?>">
-                            <div class="hotel">
-                                <img src="<?php echo "images/discount-weekend/" . $hotel['image']; ?>">
-                                <div class="hotel-info">
-                                    <div class="title"><?php echo $hotel['name']; ?></div>
-                                    <div class="hotel-details"><?php echo $hotel['address']; ?></div>
-                                    <?php
-                                    $sql_room = "
+                    <?php foreach ($hotels as $hotel) { ?>
+                        <li>
+                            <a class="selection-area" href="/web-booking-hotel/hotel-detail.php?slug=<?php echo $hotel["slug"] ?>">
+                                <div class="hotel">
+                                    <img src="<?php echo "images/hotel-detail/" . $hotel['thumbnail']; ?>">
+                                    <div class="hotel-info">
+                                        <div class="title"><?php echo $hotel['name']; ?></div>
+                                        <div class="hotel-details"><?php echo $hotel['address']; ?></div>
+                                        <?php
+                                        $sql_room = "
                                         (SELECT price FROM room WHERE id_hotel = " . $hotel['id'] . " ORDER BY price ASC LIMIT 1)
                                         UNION
                                         (SELECT price FROM room WHERE id_hotel = " . $hotel['id'] . " ORDER BY price DESC LIMIT 1)
                                     ";
-                                    $sql_room_final = mysqli_query($mysqli, $sql_room);
+                                        $sql_room_final = mysqli_query($mysqli, $sql_room);
 
-                                    $prices = []; 
-                                    while ($row = mysqli_fetch_assoc($sql_room_final)) {
-                                        $prices[] = $row['price']; 
-                                    }
-                                    $minPrice = isset($prices[0]) ? $prices[0] : 0; 
-                                    $maxPrice = isset($prices[1]) ? $prices[1] : 0; 
-                                    ?>
-                                    <div class="price">
-                                        <?php if ($maxPrice):  ?>
-                                            <div class="old-price"><?php echo $maxPrice. " VND"; ?></div>
-                                        <?php endif; ?>
-                                        <div class="new-price"><?php echo $minPrice. " VND"; ?></div>
+                                        $prices = [];
+                                        while ($row = mysqli_fetch_assoc($sql_room_final)) {
+                                            $prices[] = $row['price'];
+                                        }
+                                        $minPrice = isset($prices[0]) ? $prices[0] : 0;
+                                        $maxPrice = isset($prices[1]) ? $prices[1] : 0;
+                                        ?>
+                                        <div class="price">
+                                            <?php if ($maxPrice):  ?>
+                                                <div class="old-price"><?php echo $maxPrice . " VND"; ?></div>
+                                            <?php endif; ?>
+                                            <div class="new-price"><?php echo $minPrice . " VND"; ?></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                <?php } ?>
+                            </a>
+                        </li>
+                    <?php } ?>
 
                 </ul>
             </div>
@@ -224,7 +226,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                             Vui là chính, không cần dài
                         </div>
                         <div class="go-more-content">
-                            Kết năm với kỳ nghỉ ngắn. Tiết kiệm từ 15% trở lên khi đặt và lưu trú đến hết 7/1/2025. 
+                            Kết năm với kỳ nghỉ ngắn. Tiết kiệm từ 15% trở lên khi đặt và lưu trú đến hết 7/1/2025.
                         </div>
                         <div class="sign-in-and-sign-up">
                             <a href="auth/login.php"><button class="sign-in-button">Đăng nhập để tìm ưu đãi cuối năm</button></a>
@@ -235,7 +237,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </div>
             </div>
-         </div>
+        </div>
         <!-- Nhà ở mà khách yêu thích -->
         <div class="section" align="center">
             <div class="heading">
@@ -243,29 +245,29 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             </div>
             <div class="offers-wrapper">
                 <div class="scroll-bar">
-                <button class="prev-btn" onclick="scrollOffers(-1)">
-                    &#8249;
-                  </button>
-                <button class="next-btn" onclick="scrollOffers(1)">
-                    &#8250;
-                  </button>
+                    <button class="prev-btn" onclick="scrollOffers(-1)">
+                        &#8249;
+                    </button>
+                    <button class="next-btn" onclick="scrollOffers(1)">
+                        &#8250;
+                    </button>
                 </div>
                 <ul class="offers" id="offer">
                     <?php foreach ($hotels as $hotel) { ?>
                         <li>
                             <a class="selection-area" href="#">
                                 <div class="hotel">
-                                    <img src="<?php echo "images/discount-weekend/" . $hotel['image']; ?>">
+                                    <img src="<?php echo "images/hotel-detail/" . $hotel['thumbnail']; ?>">
                                     <div class="hotel-info">
                                         <div class="title"><?php echo $hotel['name']; ?></div>
                                         <div class="hotel-details"><?php echo $hotel['address']; ?></div>
                                         <?php
-                                            $sql_room = "SELECT price FROM room WHERE id_hotel = " . $hotel['id'] . " ORDER BY price ASC LIMIT 1";
-                                            $sql_room_final = mysqli_query($mysqli, $sql_room);
-                                            $minPrice = 0;
-                                            if ($row = mysqli_fetch_assoc($sql_room_final)) {
-                                                $minPrice = $row['price'];
-                                            }
+                                        $sql_room = "SELECT price FROM room WHERE id_hotel = " . $hotel['id'] . " ORDER BY price ASC LIMIT 1";
+                                        $sql_room_final = mysqli_query($mysqli, $sql_room);
+                                        $minPrice = 0;
+                                        if ($row = mysqli_fetch_assoc($sql_room_final)) {
+                                            $minPrice = $row['price'];
+                                        }
                                         ?>
                                         <div class="price">
                                             <div class="start-from">Bắt đầu từ </div>
@@ -280,7 +282,7 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             </div>
         </div>
         <!-- Đi nhiều hơn, chi ít hơn -->
-         <div class="section" align="center">
+        <div class="section" align="center">
             <div class="heading">
                 <h2>Đi nhiều hơn, chi ít hơn</h2>
             </div>
@@ -303,8 +305,8 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                 </div>
             </div>
-         </div>
-    
+        </div>
+
         <!-- AwarenessBanner -->
         <div class="section" align="center">
             <div class="border">
@@ -427,15 +429,16 @@ $hotels = $result->fetch_all(MYSQLI_ASSOC);
             var dropdown = document.getElementById('dropdownMenu');
             dropdown.classList.toggle('active');
         }
-        function validateForm() {
-          var destination = document.getElementById('destination').value.trim(); 
 
-          if (destination === "") {
-              alert("Vui lòng nhập địa điểm bạn muốn đến!"); 
-              return false; 
-          }
-          return true;
-      }
+        function validateForm() {
+            var destination = document.getElementById('destination').value.trim();
+
+            if (destination === "") {
+                alert("Vui lòng nhập địa điểm bạn muốn đến!");
+                return false;
+            }
+            return true;
+        }
     </script>
 </body>
 

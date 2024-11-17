@@ -23,7 +23,6 @@ if (isset($_POST['book'])) {
         $checkInDateTimestamp = strtotime($checkInDate);
         $checkOutDateTimestamp = strtotime($checkOutDate);
         $status = "Đang đặt";
-
         if ($rowUser != null) {
             $userId = $rowUser["id"];
         }
@@ -36,6 +35,8 @@ if (isset($_POST['book'])) {
         }
 
         if ($notifyValue == "") {
+            echo $userId;
+            echo $roomId;
 
             if ($rowUser != null) {
                 $sql_in = "INSERT INTO booking(id_user, id_room, check_in_date, check_out_date, create_at, total_price, booking_status) 
@@ -317,8 +318,7 @@ foreach ($rooms as $room) {
                 </div>
                 <div class="price-room">
                     <span>' . $rooms[$i]['price'] . '<small>/ 1 đêm</small></span>
-                    
-                    <button id="showDetail' . $i . '" class="showDetailBtn" onclick="showModel( \'' . addslashes($rooms[$i]['id']) . '\',\'' . $rooms[$i]['image'] . '\', \'' . addslashes($rooms[$i]['name']) . '\', \'' . addslashes($rooms[$i]['description']) . '\', \'' . addslashes($rooms[$i]['price']) . '\')">Chọn phòng</button>
+                    <button id="showDetail' . $i . '" class="showDetailBtn" onclick="showModel( \'' . addslashes($rooms[$i]['room_id']) . '\',\'' . $rooms[$i]['image'] . '\', \'' . addslashes($rooms[$i]['name']) . '\', \'' . addslashes($rooms[$i]['description']) . '\', \'' . addslashes($rooms[$i]['price']) . '\')">Chọn phòng</button>
                             
                         </div>
                     </div>

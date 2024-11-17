@@ -4,10 +4,10 @@ include($_SERVER['DOCUMENT_ROOT'] . '/web-booking-hotel/config/connect.php');
 $sql = 'SELECT * FROM `city`';
 $result = mysqli_query($mysqli, $sql);
 
-if(isset($_SESSION['update-success'])){
+if (isset($_SESSION['update-success'])) {
     echo "<script>alert('Cập nhật thành công');</script>";
     unset($_SESSION['update-success']);
-} else if(isset($_SESSION['update-false'])){
+} else if (isset($_SESSION['update-false'])) {
     echo "<script>alert('Cập nhật thất bại');</script>";
     unset($_SESSION['update-false']);
 }
@@ -23,11 +23,12 @@ if(isset($_SESSION['update-success'])){
             <th>Tùy chọn</th>
         </tr>
         <?php $count = 0;
-        while ($row = mysqli_fetch_array($result)) { $count += 1; ?>
+        while ($row = mysqli_fetch_array($result)) {
+            $count += 1; ?>
             <tr>
                 <td><?php echo $count ?></td>
                 <td><?php echo $row['name'] ?></td>
-                <td><img class="thumbnail" src="<?php echo "../images/kham-pha-vn/" . $row['image'] ?>" alt="City Image" width="100"></td>
+                <td><img class="thumbnail" src="<?php echo "../images/cities/" . $row['image'] ?>" alt="City Image" width="100"></td>
                 <td>
                     <a href="city/delete.php?this_id=<?php echo $row['id'] ?>"><button class="delete" onclick="return confirm('Có chắc xóa thành phố này không?');">Xóa</button></a>
                     <button class="edit" onclick="openPopup(<?php echo $row['id'] ?>, '<?php echo $row['name'] ?>', '<?php echo $row['image'] ?>')">Sửa</button>
