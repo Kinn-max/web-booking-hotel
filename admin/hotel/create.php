@@ -7,6 +7,7 @@ if (isset($_POST['submit'])) {
     $phone = $_POST['hotelPhone'];
     $description = $_POST['hotelDescription'];
     $id_city = $_POST['city'];
+    $services = isset($_POST['service']) ? $_POST['service'] : [];
 
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
 
@@ -21,8 +22,15 @@ if (isset($_POST['submit'])) {
         $sql = "INSERT INTO hotel (id_city, name, address, phone, description, slug) 
                 VALUES ('$id_city', '$name', '$address', '$phone', '$description', '$slug')";
 
+
         if (mysqli_query($mysqli, $sql)) {
             $hotel_id = mysqli_insert_id($mysqli);
+            if (!empty($services)) {
+                foreach ($services as $service_id) {
+                    $insert_service = "INSERT INTO `service_hotel`(`hotel_id`, `service_id`) VALUES ('$hotel_id', '$service_id')";
+                    $mysqli->query($insert_service);
+                }
+            }
 
             if (!empty($_FILES["hotelImage"]["name"][0])) {
                 foreach ($_FILES['hotelImage']['name'] as $key => $image_name) {
@@ -44,4 +52,3 @@ if (isset($_POST['submit'])) {
         }
     }
 }
-?>

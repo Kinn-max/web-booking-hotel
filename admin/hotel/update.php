@@ -8,8 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $hotelPhone = $_POST['hotelPhone'];
     $hotelDescription = $_POST['hotelDescription'];
     $id_city = $_POST['city'];
+    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $hotelName), '-'));
 
-    $updateSql = "UPDATE hotel SET name = '$hotelName', address = '$hotelAddress', phone = '$hotelPhone', description = '$hotelDescription', id_city = '$id_city' WHERE id = '$hotelId'";
+    $updateSql = "UPDATE hotel SET name = '$hotelName', address = '$hotelAddress', phone = '$hotelPhone', description = '$hotelDescription', id_city = '$id_city', slug = '$slug' WHERE id = '$hotelId'";
 
     if (mysqli_query($mysqli, $updateSql)) {
         if (!empty($_FILES["hotelImage"]["name"][0])) {
@@ -31,4 +32,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['error'] = "Update error";
     }
 }
-?>

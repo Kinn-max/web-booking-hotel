@@ -6,12 +6,19 @@ $result = mysqli_query($mysqli, $sql);
 
 $city_sql = 'SELECT * FROM city';
 $city_result = mysqli_query($mysqli, $city_sql);
-if(isset($_SESSION['success'])){
+if (isset($_SESSION['success'])) {
     echo "<script>alert('Cập nhật thành công');</script>";
     unset($_SESSION['success']);
 } elseif (isset($_SESSION['error'])) {
     echo "<script>alert('Cập nhật thất bại');</script>";
     unset($_SESSION['error']);
+}
+$service = [];
+$query_service = "SELECT * FROM `service`";
+if ($sql = $mysqli->query($query_service)) {
+    while ($row = $sql->fetch_assoc()) {
+        $service[] = $row;
+    }
 }
 ?>
 
@@ -27,13 +34,13 @@ if(isset($_SESSION['success'])){
     <div class="add-button">
         <button class="add" onclick="openAddPopup()">Thêm Khách Sạn</button>
     </div>
-    <?php if (isset($_SESSION['error_hotel_message'])) {?>
-    <div class='error-message' style='color: red;'><?php echo $_SESSION['error_hotel_message']?></div>
-        <?php unset($_SESSION['error_hotel_message'])?>
-    <?php } elseif (isset($_SESSION['success_hotel_message'])) {?>
-    <div class='success-message' style='color: green;background-color: #d4edda'><?php echo $_SESSION['success_hotel_message']?></div>
-    <?php unset($_SESSION['success_hotel_message'])?>
-    <?php }?>
+    <?php if (isset($_SESSION['error_hotel_message'])) { ?>
+        <div class='error-message' style='color: red;'><?php echo $_SESSION['error_hotel_message'] ?></div>
+        <?php unset($_SESSION['error_hotel_message']) ?>
+    <?php } elseif (isset($_SESSION['success_hotel_message'])) { ?>
+        <div class='success-message' style='color: green;background-color: #d4edda'><?php echo $_SESSION['success_hotel_message'] ?></div>
+        <?php unset($_SESSION['success_hotel_message']) ?>
+    <?php } ?>
     <div class="table-container">
         <table>
             <tr>
@@ -56,13 +63,13 @@ if(isset($_SESSION['success'])){
                 while ($image_row = mysqli_fetch_array($image_result)) {
                     $images[] = $image_row['name'];
                 }
-                ?>
+            ?>
 
                 <tr>
                     <td><?php echo $count ?></td>
                     <td><?php echo $row['name'] ?></td>
-                    <td><?php echo $row['address']?></td>
-                    <td><?php echo $row['phone']?></td>
+                    <td><?php echo $row['address'] ?></td>
+                    <td><?php echo $row['phone'] ?></td>
                     <td>
                         <div class="descriptionHotel" id="desc-<?php echo $row['id']; ?>">
                             <?php echo substr($row['description'], 0, 100); ?>...
@@ -105,9 +112,18 @@ if(isset($_SESSION['success'])){
 
             <label>Thuộc thành phố</label>
             <select id="option" name="city" required>
-                <?php while ($rowCity = mysqli_fetch_assoc($city_result)){ ?>
+                <?php while ($rowCity = mysqli_fetch_assoc($city_result)) { ?>
                     <option value="<?php echo $rowCity['id'] ?>"><?php echo $rowCity['name'] ?></option>
                 <?php } ?>
+            </select>
+
+            <label for="current-job-role">Dịch vụ</label>
+            <select multiple id="current-job-role" class="sd-CustomSelect" name="service[]" style="width: 100%;">
+                <?php
+                foreach ($service as $row) {
+                    echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                }
+                ?>
             </select>
 
             <label for="hotelImage">Chọn hình ảnh mới (nếu có):</label>
