@@ -259,6 +259,7 @@ if ($stmt_booking) {
         <a href=""><i class="fa-brands fa-twitter"></i></a>
         <a href=""><i class="fa-brands fa-linkedin"></i></a>
     </div>
+</div>
 <script>
     setTimeout(function() {
         var message = document.getElementById('message');
@@ -273,6 +274,7 @@ if ($stmt_booking) {
         document.getElementById('change-password').style.display = 'none';
 
         document.getElementById(sectionId).style.display = 'block';
+    }
 </script>
 </body>
 </html>

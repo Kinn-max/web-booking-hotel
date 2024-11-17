@@ -1,7 +1,16 @@
 <?php
 include("config/connect.php");
 
-
+session_start();
+if(isset($_SESSION['userEmail'])){
+    $loggedIn = true;
+    $email = $_SESSION['userEmail'];
+    $user = "SELECT * FROM user WHERE email = '$email'";
+    $userName = $mysqli->query($user);
+    $rowUser = $userName->fetch_assoc();
+} else {
+    $loggedIn = false;
+}
 
 $nameSearch = "";
 $where = " WHERE r.is_available = false"; 
@@ -51,9 +60,11 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto&family=Playfair+Display&family=Source+Sans+Pro&display=swap"
       rel="stylesheet" />
-
+      <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/search.css" />
     <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/footer.css" />
     <script
       src="https://kit.fontawesome.com/e9ee262283.js"
       crossorigin="anonymous"></script>
@@ -78,10 +89,33 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
           </svg>
         </div>
         <div class="header_btn">
-          <button class="header_btn-item">Đăng ký</button>
-          <button class="header_btn-item">Đăng nhập</button>
+                <?php if ($loggedIn): ?>
+                    <div class="navbar" onclick="toggleDropdown()">
+                        <div class="user-info">
+                            <span class="user-name"> Chào mừng, <?php echo $rowUser['fullname']?> </span>
+                            <span class="user-status"></span>
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=profile">
+                                    <span class="icon">👤</span> Thông tin cá nhân
+                                </a>
+                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=book-history">
+                                    <span class="icon">💼</span> Lịch sử chuyến đi
+                                </a>
+                                <a href="user/user.php?id=<?php echo $rowUser['id']?>&&page=change-password">
+                                    <span class="icon">🔐</span> Đổi mật khẩu
+                                </a>
+                                <a href="auth/logout.php">
+                                    <span class="icon">🚪</span> Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <a href="auth/register.php"><button class="header_btn-item">Đăng ký</button></a>
+                    <a href="auth/login.php"><button class="header_btn-item">Đăng nhập</button></a>
+                <?php endif; ?>
+            </div>
         </div>
-      </div>
       <div class="select_date">
        
         <form action="search.php" method="GET">
@@ -108,13 +142,14 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
                     <div class="connect_two-element"></div>
                     <span><i class="fa-solid fa-chevron-down"></i></span>
                 </button>
+                <div class="hover-hidden"></div>
                 <div class="options">
                     <div class="input-adult df">
                         <div class="label-adult df">
                             <label for="">Giường</label>
                         </div>
                         <div class="select-adult">
-                            <button type="button" onclick="updateValue('rooms', -1)">-</button>
+                            <button type="button" class="pointer-hover" onclick="updateValue('rooms', -1)">-</button>
                             <span id="rooms_count">1</span>
                             <input type="hidden" name="rooms" id="rooms" value="1">
                             <button type="button" onclick="updateValue('rooms', 1)">+</button>
@@ -253,6 +288,12 @@ $sql_city_final = mysqli_query($mysqli, $sql_city);
     </div>
   </div>
   <script src="js/search.js"></script>
+  <script>
+    function toggleDropdown() {
+            var dropdown = document.getElementById('dropdownMenu');
+            dropdown.classList.toggle('active');
+        }
+  </script>
 </body>
 
 </html>

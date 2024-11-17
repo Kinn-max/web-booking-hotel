@@ -138,6 +138,20 @@
   background-color: white;
   padding: 32px;
   right: 90px;
+
+}
+.options:hover{
+  cursor: pointer;
+}
+.pointer-hover:hover{
+  cursor: pointer;
+}
+.hover-hidden{
+  width: 300px;
+  height: 10px;
+  background-color: transparent;
+  position: absolute;
+  margin-top: 50px;
 }
 
 .input-adult {
